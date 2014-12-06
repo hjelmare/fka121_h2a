@@ -8,6 +8,8 @@
 #define PI 3.14159265
 #define BOLTZMANN 1.3806488*pow(10,-23)
 #define BOLTZMANNeV 8.61734*pow(10,-5)
+#define CU 1
+#define ZN 0
 
 int main()
 { 
@@ -30,14 +32,16 @@ int main()
   double Energy;
   
   int N = 10*10*10;  // Number of Cu and Zn particles (10 unit cells in each dimension), there are 2 atoms per unit cell
+  N = 4;
 
   // variables that depend on earlier set variables:
   double CuParticles[N][8], ZnParticles[N][8];
   double temporaryStorage[8];
 
   int i,j,k;
-  int storeNbr;  //a variable that changes value in each loop (Task 1).
   double P, T;
+  int randZn, randCu;
+  int nZnChanges, nCuChanges;
 
   // open files to save values in.
   FILE *valuesFile;
@@ -53,40 +57,51 @@ int main()
   FILE *CFile;
   CFile = fopen("heatCapacity.data","w");
 
+  srand(time(NULL));
+
   //Initialization (so far we only construct a perfectly ordered structure)
   InitializeSystem(N, CuParticles, ZnParticles); 
  
-  randZn = rand() * scale; // skala till particlearraystorlek, int
-  randCu = rand() * scale;
+  randZn = (int) ( ( (double) rand() / (double) RAND_MAX ) * N);
+  randCu = (int) ( ( (double) rand() / (double) RAND_MAX ) * N);
 
   for ( i = 0 ; i < 8 ; i++) {
-    if( CuParticles[randCu][i] == 1 ) {
+    if( CuParticles[randCu][i] == ZN ) {
       nZnChanges++;
     }
-    if( ZnParticles[randZn][i] == 1 ) {
+    if( ZnParticles[randZn][i] == CU ) {
       nCuChanges++;
     }
   }
-  
+  printf("znChanges %d\n", nZnChanges); 
+  i = 0;
   while ( nZnChanges > 0 ) {
-    if ( ZnParticles[(int) i / (int) 8][i%8] == 1 ) {   // how do we denote an opposite-type particle?
+    if ( ZnParticles[(int) i / (int) 8][i%8] == CU ) {
       nZnChanges--;
-      ZnParticles[(int) i / (int) 8][i%8] = 0;
+      ZnParticles[(int) i / (int) 8][i%8] = ZN;
     }
     i++;
     if ( (int) i / (int) 8 == randZn ) {
       i += 8;
     }
+    if ( i > 8*N ) {
+      i = 0;
+    }
+    printf("zn %d\n",i);
   }
 
+  i = 0;
   while ( nCuChanges > 0 ) {
-    if ( CuParticles[(int) i / (int) 8][i%8] == 1 ) { // same as ^^
+    if ( CuParticles[(int) i / (int) 8][i%8] == ZN ) {
       nCuChanges--;
-      CuParticles[(int) i / (int) 8][i%8] = 0;
+      CuParticles[(int) i / (int) 8][i%8] = CU;
     }
     i++;
     if ( (int) i / (int) 8 == randCu ) {
       i += 8;
+    }
+    if ( i > 8*N ) {
+      i = 0;
     }
   }
   
@@ -95,6 +110,6 @@ int main()
     CuParticles[randCu][i] = ZnParticles[randZn][i];
     ZnParticles[randZn][i] = temporaryStorage[i];
   }
-
+  printf("Done!\n");
   return 0;
 }
