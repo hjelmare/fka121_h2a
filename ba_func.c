@@ -19,3 +19,33 @@ void InitializeSystem(int N, double CnParticles[][8], double ZnParticles[][8])
     }
   }
 }
+
+double getEnergy(int N, double CnParticles[][8], double ZnParticles[][8])
+{
+  int i;
+  double sum = 0;
+  double E_CuCu = -0.436; //eV
+  double E_ZnZn = -0.113; //eV
+  double E_CuZn = -0.294; //eV
+
+  for(i = 0; i<N; i++){
+    for(j = 0; j<8; j++){
+      if(CnParticles[i][j] == 0){
+        sum += E_CuZn;
+      }else{
+        sum += E_CuCu;
+      }
+
+      if(ZnParticles[i][j] == 1){
+        sum += E_CuZn;
+      }else{
+        sum += E_ZnZn;
+      }
+    }
+  }
+  sum = sum/2; //Every bond is counted twice, so we divide by 2;
+
+  return sum;
+}
+
+
