@@ -33,6 +33,7 @@ int main()
 
   // variables that depend on earlier set variables:
   double CuParticles[N][8], ZnParticles[N][8];
+  double temporaryStorage[8];
 
   int i,j,k;
   int storeNbr;  //a variable that changes value in each loop (Task 1).
@@ -52,58 +53,48 @@ int main()
   FILE *CFile;
   CFile = fopen("heatCapacity.data","w");
 
-
- // Task 1, not realy related to computations in part 2-----------------------------------
- // Mean field approximation
-  dE = E_CuCu + E_ZnZn - 2*E_CuZn;
-  E0 = 2*N*(E_CuCu + E_ZnZn + 2*E_CuZn);
-  T_c = 2*dE/BOLTZMANNeV;
-  fprintf(valuesFile,"%e\tphase transition temperature - OBS! Should be ~468 C\n", T_c);
-
-  storeNbr = 0;
-  for(T=Tstart; T<Tstop; T+=Tstep){
-      freeEnergy_min = pow(10,100);
-      P_save = 2;
-      E_save = 0;
-    for(P =- 1; P<1; P += Pstep){ //Går från -1 till 1 och stegar med Pstep storlek.
-      E = E0 - 2*N*pow(P,2)*dE;
-      freeEnergy = E - 2*N*BOLTZMANNeV*log(2) + N*BOLTZMANNeV*T*((1 + P)*log(1 + P) + (1 - P)*log(1 - P));
-      if(freeEnergy < freeEnergy_min){
-        freeEnergy_min = freeEnergy;
-        P_save = P;
-        E_save = E;
-      }
-      fprintf(p_TFile, "%e\t%e\t%e\n", P, freeEnergy_min, T); //Saves the energys as function of T & P 
-    }
-    fprintf(UFile, "%e\t%e\n", T, E_save); //Saves energy-U as function of temperature.
-    
-    // Calculating heatcapacity
-    if(storeNbr < 2){
-      heatCapacityTemporary[storeNbr] = E_save; 
-      storeNbr += 1;
-    }else{
-      heatCapacity = (E_save - heatCapacityTemporary[0])/(2*Tstep);
-      fprintf(CFile, "%e \t %e \n", T, heatCapacity);
-        
-      heatCapacityTemporary[0] = heatCapacityTemporary[1];
-      heatCapacityTemporary[1] = E_save;
-    }
-    fprintf(energyFile,"%e \t %e\n", T, P_save);  // Saves the P that gives the lowest energy at temperature T.
-  }
-    
- // Task 1 end --------------------------------------------------------------------------
- // -------------------------------------------------------------------------------------
- // -------------------------------------------------------------------------------------
- // Task 2 start ------------------------------------------------------------------------
- 
   //Initialization (so far we only construct a perfectly ordered structure)
   InitializeSystem(N, CuParticles, ZnParticles); 
  
- 
- 
- 
- // Task 2 end -------------------------------------------------------------------------
- // ------------------------------------------------------------------------------------
-printf("OBS! VI FÅR FORTFARANDE FEL PÅ DEN BERÄKNADE FASTRANSMORMATIONS-TEMPERATUREN SOM SPARAS I values.data!!!!!!!!!!!!!!!!!!\n");
+  randZn = rand() * scale; // skala till particlearraystorlek, int
+  randCu = rand() * scale;
+
+  for ( i = 0 ; i < 8 ; i++) {
+    if( CuParticles[randCu][i] == 1 ) {
+      nZnChanges++;
+    }
+    if( ZnParticles[randZn][i] == 1 ) {
+      nCuChanges++;
+    }
+  }
+  
+  while ( nZnChanges > 0 ) {
+    if ( ZnParticles[(int) i / (int) 8][i%8] == 1 ) {   // how do we denote an opposite-type particle?
+      nZnChanges--;
+      ZnParticles[(int) i / (int) 8][i%8] = 0;
+    }
+    i++;
+    if ( (int) i / (int) 8 == randZn ) {
+      i += 8;
+    }
+  }
+
+  while ( nCuChanges > 0 ) {
+    if ( CuParticles[(int) i / (int) 8][i%8] == 1 ) { // same as ^^
+      nCuChanges--;
+      CuParticles[(int) i / (int) 8][i%8] = 0;
+    }
+    i++;
+    if ( (int) i / (int) 8 == randCu ) {
+      i += 8;
+    }
+  }
+  
+  for ( i = 0 ; i < 8 ; i++ ) {
+    temporaryStorage[i] = CuParticles[randCu][i];
+    CuParticles[randCu][i] = ZnParticles[randZn][i];
+    ZnParticles[randZn][i] = temporaryStorage[i];
+  }
+
   return 0;
 }
