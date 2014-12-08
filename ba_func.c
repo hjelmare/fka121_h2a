@@ -22,7 +22,7 @@ void InitializeSystem(int N, double CnParticles[][8], double ZnParticles[][8])
 
 double getEnergy(int N, double CnParticles[][8], double ZnParticles[][8])
 {
-  int i;
+  int i,j;
   double sum = 0;
   double E_CuCu = -0.436; //eV
   double E_ZnZn = -0.113; //eV

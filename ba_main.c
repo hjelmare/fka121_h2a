@@ -32,11 +32,13 @@ int main()
   double Energy;
   
   int N = 10*10*10;  // Number of Cu and Zn particles (10 unit cells in each dimension), there are 2 atoms per unit cell
-  N = 4;
+//  N = 4;
 
   // variables that depend on earlier set variables:
   double CuParticles[N][8], ZnParticles[N][8];
   double temporaryStorage[8];
+  double latticeA[N], latticeB[N];
+  double NeighbourA[N][8], neighbourB[N][8]
 
   int i,j,k;
   double P, T;
@@ -60,8 +62,21 @@ int main()
   srand(time(NULL));
 
   //Initialization (so far we only construct a perfectly ordered structure)
-  InitializeSystem(N, CuParticles, ZnParticles); 
- 
+  for(i=0; i<2*N; i++){
+      latticeA[i]= 0;
+      latticeB[i]=1;
+  }
+  // Construct the neighbours
+  for(i=0; i<N; i++){
+    for(j=0; j<8; j++){
+      if() //Fan vad seg jag var nu då...
+    }
+  }
+
+
+
+
+/* -------------------------------------------------------------------------------------------------------------------------
   randZn = (int) ( ( (double) rand() / (double) RAND_MAX ) * N);
   randCu = (int) ( ( (double) rand() / (double) RAND_MAX ) * N);
 
@@ -109,7 +124,12 @@ int main()
     temporaryStorage[i] = CuParticles[randCu][i];
     CuParticles[randCu][i] = ZnParticles[randZn][i];
     ZnParticles[randZn][i] = temporaryStorage[i];
-  }
+  } -------------------------------------------------------------------------------------------------------------------------
+*/ 
+
   printf("Done!\n");
+
+
+
   return 0;
 }
