@@ -73,7 +73,7 @@ int main()
   // Construct the neighbours OBS! in GA there are indexes to LatticeB and GB indexes in latticeA
   // ie. the neighbours to all particles in sublattice A are located in sublattice B.
   for(i=0; i<N; i++){
-      if(i==0){ //Kant- främfre, lägre vänstra
+ /*     if(i==0){ //Kant- främfre, lägre vänstra
         
         GA[i][0] = i;            GB[i][0] = i+111;
         GA[i][1] = i-1+10;       GB[i][1] = i+110;
@@ -119,7 +119,7 @@ int main()
                 GA[i][3] = i+100-11;    GB[i][3] = i+100;
                 GA[i][4] = i-100;       GB[i][4] = i+11;
                 GA[i][5] = i-101;       GB[i][5] = i+10;
-                GA[i][6] = i-10; /*Osäker på dessa */ GB[i][6] = i+1;
+                GA[i][6] = i-10;        GB[i][6] = i+1;
                 GA[i][7] = i-11;        GB[i][7] = i;
               }else{ if((i+1+10)%100<10){ //Bortre sidan
                   GA[i][0] = i;         GB[i][0] = i+211;
@@ -161,7 +161,7 @@ int main()
                         GA[i][6] = i-110;     GB[i][6] = i+1;
                         GA[i][7] = i-111;     GB[i][7] = i;
          
-                    }else{//The neighbours to particles that's not affected by the boudary.
+                    }else{ */ //The neighbours to particles that's not affected by the boudary.
                           GA[i][0] = i;         GB[i][0] = i+111;
                           GA[i][1] = i-1;       GB[i][1] = i+110;
                           GA[i][2] = i-10;      GB[i][2] = i+101;
@@ -170,7 +170,7 @@ int main()
                           GA[i][5] = i-101;     GB[i][5] = i+10;
                           GA[i][6] = i-110;     GB[i][6] = i+1;
                           GA[i][7] = i-111;     GB[i][7] = i;
-                       }
+    /*                   }
                     }
                   }
                 }
@@ -178,7 +178,7 @@ int main()
             }
           }
         }
-      }
+      } */
   }
 
   for(i=0; i<N; i++){
