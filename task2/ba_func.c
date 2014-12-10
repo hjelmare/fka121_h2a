@@ -10,13 +10,27 @@
 #define EZZ -0.113
 #define ECZ -0.294
 
-void InitializeSystem(int n, int latticeA[], int latticeB[])
+void InitializeLattice(int n, int lattice[], int type)
 {
-  // this needs to be written
+  int i;
+
+  for( i = 0 ; i < n ; i++ ) {
+    lattice[i] = type;
+  }
+
+  return;
 }
 
-double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], double neighboursToB[][8])
+double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], int neighboursToB[][8])
 {
   // this needs to go through latticeA and latticeB and sum up NN-energies 
+}
+
+void InitializeNeighbourMatrices(int n, int neighboursToA[][8], int neighboursToB[][8])
+{
+
+
+
+  return;
 }
 
