@@ -102,7 +102,7 @@ int main()
      GA[i][0] = i;           GB[i][0] = i+111;
      GA[i][1] = i-1;         GB[i][1] = i+110;
      GA[i][2] = i+100-10;    GB[i][2] = i+101;
-     GA[i][3] = i+100-11;    GB[i][3] = i+100;
+     GA[i][3] = i+100-11;    GB[i][3] = i+100; //KLAR
      GA[i][4] = i-100;       GB[i][4] = i+11;
      GA[i][5] = i-101;       GB[i][5] = i+10;
      GA[i][6] = i-10;        GB[i][6] = i+1;
@@ -249,58 +249,6 @@ int main()
     fprintf(neighbourAFile,"\n");
     fprintf(neighbourBFile, "\n");
   }
-
-
-/* -------------------------------------------------------------------------------------------------------------------------
-  randZn = (int) ( ( (double) rand() / (double) RAND_MAX ) * N);
-  randCu = (int) ( ( (double) rand() / (double) RAND_MAX ) * N);
-
-  for ( i = 0 ; i < 8 ; i++) {
-    if( CuParticles[randCu][i] == ZN ) {
-      nZnChanges++;
-    }
-    if( ZnParticles[randZn][i] == CU ) {
-      nCuChanges++;
-    }
-  }
-  printf("znChanges %d\n", nZnChanges); 
-  i = 0;
-  while ( nZnChanges > 0 ) {
-    if ( ZnParticles[(int) i / (int) 8][i%8] == CU ) {
-      nZnChanges--;
-      ZnParticles[(int) i / (int) 8][i%8] = ZN;
-    }
-    i++;
-    if ( (int) i / (int) 8 == randZn ) {
-      i += 8;
-    }
-    if ( i > 8*N ) {
-      i = 0;
-    }
-    printf("zn %d\n",i);
-  }
-
-  i = 0;
-  while ( nCuChanges > 0 ) {
-    if ( CuParticles[(int) i / (int) 8][i%8] == ZN ) {
-      nCuChanges--;
-      CuParticles[(int) i / (int) 8][i%8] = CU;
-    }
-    i++;
-    if ( (int) i / (int) 8 == randCu ) {
-      i += 8;
-    }
-    if ( i > 8*N ) {
-      i = 0;
-    }
-  }
-  
-  for ( i = 0 ; i < 8 ; i++ ) {
-    temporaryStorage[i] = CuParticles[randCu][i];
-    CuParticles[randCu][i] = ZnParticles[randZn][i];
-    ZnParticles[randZn][i] = temporaryStorage[i];
-  } -------------------------------------------------------------------------------------------------------------------------
-*/ 
 
   printf("Done!\n");
 
