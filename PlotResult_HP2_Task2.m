@@ -129,7 +129,7 @@ gz = fix((granne-1)/100);
 gy = fix(((granne-1)-gz*100)/10);
 gx = (granne-1)-gz*100-gy*10;
 
-for i=6:6
+for i=1:8
 z(i)=fix(granneA(granne, i)/100);
 y(i)=fix((granneA(granne, i)-z(i)*100)/10);
 x(i)=granneA(granne,i)-(z(i)*100+y(i)*10);
