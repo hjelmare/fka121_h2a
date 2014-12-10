@@ -11,6 +11,11 @@
 #define CU 1
 #define ZN 0
 
+#define ECC -0.436
+#define EZZ -0.113
+#define ECZ -0.294
+
+
 int main()
 { 
 
