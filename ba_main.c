@@ -96,15 +96,6 @@ int main()
           GA[i][5] = i-101;     GB[i][5] = N-91;
           GA[i][6] = i-110;     GB[i][6] = N-9-1;
           GA[i][7] = i-111;     GB[i][7] = 99;
-        }else{ if(i==N-1){ //Kant - bakre, övre högra
-            GA[i][0] = i;         GB[i][0] = 0;
-            GA[i][1] = i-1;       GB[i][1] = N-1-100;
-            GA[i][2] = i-10;      GB[i][2] = 9;
-            GA[i][3] = i-11;      GB[i][3] = 99;
-            GA[i][4] = i-100;     GB[i][4] = N-100;
-            GA[i][5] = i-101;     GB[i][5] = N-100+9;
-            GA[i][6] = i-110;     GB[i][6] = N-9;
-            GA[i][7] = i-111;     GB[i][7] = N-1;
           }else{ if(i<10){ //Främre undre raden 
               GA[i][0] = i;         GB[i][0] = i+111;
               GA[i][1] = i-1;       GB[i][1] = i+110;
@@ -115,16 +106,52 @@ int main()
               GA[i][6] = i+N-110;   GB[i][6] = i+1;
               GA[i][7] = i+N-111;   GB[i][7] = i;
 
-              }else{ if(i%100 == 1){ //Främre vänstra raden
+              }else{ if(i%100 == 0){ //Främre vänstra raden
                   GA[i][0] = i;         GB[i][0] = i+111;
                   GA[i][1] = i+10-1;    GB[i][1] = i+110;
                   GA[i][2] = i+100-10;  GB[i][2] = i+101;
-                  GA[i][3] = i-11+90;   GB[i][3] = i+100; // +90?? stämmer detta? på [7] också
+                  GA[i][3] = i-11+110;   GB[i][3] = i+100; // +110?? stämmer detta? på [7] också?
                   GA[i][4] = i-100;     GB[i][4] = i+11;
                   GA[i][5] = i+10-101;  GB[i][5] = i+10;
                   GA[i][6] = i+100-110; GB[i][6] = i+1;
-                  GA[i][7] = i-111+90;  GB[i][7] = i; //?
-              }else{ if()    
+                  GA[i][7] = i-111+110;  GB[i][7] = i; //?
+              }else{ if((i)%100 == 99){ // Bakre högra raden
+                  GA[i][0] = i;         GB[i][0] = i+111-110;
+                  GA[i][1] = i-1;       GB[i][1] = i+110-100;
+                  GA[i][2] = i-10;      GB[i][2] = i+101-10;
+                  GA[i][3] = i-11;      GB[i][3] = i+100;
+                  GA[i][4] = i-100;     GB[i][4] = i+11-110;
+                  GA[i][5] = i-101;     GB[i][5] = i+10-100;
+                  GA[i][6] = i-110;     GB[i][6] = i+1-10;
+                  GA[i][7] = i-111;     GB[i][7] = i;
+              }else{if(i=>N-10){ //bakre övre raden
+                  GA[i][0] = i;         GB[i][0] = i-N-100+111;
+                  GA[i][1] = i-1;       GB[i][1] = i-N-100+110;
+                  GA[i][2] = i-10;      GB[i][2] = i-N+101;
+                  GA[i][3] = i-11;      GB[i][3] = i-N+100;
+                  GA[i][4] = i-100;     GB[i][4] = i+11-100;
+                  GA[i][5] = i-101;     GB[i][5] = i+10-100;
+                  GA[i][6] = i-110;     GB[i][6] = i+1;
+                  GA[i][7] = i-111;     GB[i][7] = i;
+              }else{if(i>(N-100) && i%10==9){ // högra sidan övre raden
+                  GA[i][0] = i;         GB[i][0] = i-N-10+111;
+                  GA[i][1] = i-1;       GB[i][1] = i-N+110;
+                  GA[i][2] = i-10;      GB[i][2] = i-N-10+101;
+                  GA[i][3] = i-11;      GB[i][3] = i-N+100;
+                  GA[i][4] = i-100;     GB[i][4] = i-10+11;
+                  GA[i][5] = i-101;     GB[i][5] = i+10;
+                  GA[i][6] = i-110;     GB[i][6] = i-10+1;
+                  GA[i][7] = i-111;     GB[i][7] = i;
+              }else{if(i<100 && i%10 == 0){ // vänstra sidan botten-raden
+                  GA[i][0] = i;         GB[i][0] = i+111;
+                  GA[i][1] = i+10-1;    GB[i][1] = i+110;
+                  GA[i][2] = i-10;      GB[i][2] = i+101;
+                  GA[i][3] = i+10-11;   GB[i][3] = i+100;
+                  GA[i][4] = i+N-100;   GB[i][4] = i+11;
+                  GA[i][5] = i+N+10-101;GB[i][5] = i+10;
+                  GA[i][6] = i+N-110;   GB[i][6] = i+1;
+                  GA[i][7] = i+N+10-111;GB[i][7] = i;
+                      
 
               }else{ if(i<100){  //the "floor" boundary condition. (100 particles to the next lvl)
                  GA[i][0] = i;           GB[i][0] = i+111;
@@ -194,6 +221,8 @@ int main()
                               GA[i][5] = i-101;     GB[i][5] = i+10;
                               GA[i][6] = i-110;     GB[i][6] = i+1;
                               GA[i][7] = i-111;     GB[i][7] = i;
+//                         }
+//                         }
 //                          }
 //                      }
 //                    }
