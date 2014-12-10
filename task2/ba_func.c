@@ -32,8 +32,8 @@ double GetLongRangeOrder(int n, int latticeA[])
       count++;
     }
   }
-
-  return 2*(count/n)-1;
+  printf("count %d\n",count);
+  return 2*((double) count / (double) n)-1;
 }
 
 double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], int neighboursToB[][8])
