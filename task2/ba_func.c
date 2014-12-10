@@ -10,45 +10,13 @@
 #define EZZ -0.113
 #define ECZ -0.294
 
-//Initializes a parfectly ordered system.
-//Cn/Zn-Particles are the nearest neighbour matrixes.
-void InitializeSystem(int N, double CnParticles[][8], double ZnParticles[][8])
+void InitializeSystem(int N, int latticeA[], int latticeB[])
 {
-  int i,j;
-  for(i = 0; i<N; i++){
-    for(j = 0; j<8; j++){
-      CnParticles[i][j] = 0;  //0 ==> Zn Particles
-      ZnParticles[i][j] = 1;  //1 ==> Cu Particles
-    }
-  }
+  // this needs to be written
 }
 
-double GetEnergy(int N, double CnParticles[][8], double ZnParticles[][8])
+double GetEnergy(int N, int latticeA[], int latticeB[], int neighboursToA[][8], double neighboursToB[][8])
 {
-  int i,j;
-  double sum = 0;
-  double E_CuCu = -0.436; //eV
-  double E_ZnZn = -0.113; //eV
-  double E_CuZn = -0.294; //eV
-
-  for(i = 0; i<N; i++){
-    for(j = 0; j<8; j++){
-      if(CnParticles[i][j] == 0){
-        sum += E_CuZn;
-      }else{
-        sum += E_CuCu;
-      }
-
-      if(ZnParticles[i][j] == 1){
-        sum += E_CuZn;
-      }else{
-        sum += E_ZnZn;
-      }
-    }
-  }
-  sum = sum/2; //Every bond is counted twice, so we divide by 2;
-
-  return sum;
+  // this needs to go through latticeA and latticeB and sum up NN-energies 
 }
-
 
