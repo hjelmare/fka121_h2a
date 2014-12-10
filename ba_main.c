@@ -175,7 +175,7 @@ int main()
       GA[i][6] = i+100-110; GB[i][6] = i+1;
       GA[i][7] = i-111+110;  GB[i][7] = i; //?
     }
-    if((i)%100 == 99){ // Bakre högra raden
+    if(i%100 == 99){ // Bakre högra raden
       GA[i][0] = i;         GB[i][0] = i+111-110;
       GA[i][1] = i-1;       GB[i][1] = i+110-100;
       GA[i][2] = i-10;      GB[i][2] = i+101-10;
@@ -195,7 +195,7 @@ int main()
       GA[i][6] = i-110;     GB[i][6] = i+1;
       GA[i][7] = i-111;     GB[i][7] = i;
     }
-    if(i>(N-100) && i%10==9){ // högra sidan övre raden
+    if( (i>(N-100)) && (i%10==9)) { // högra sidan övre raden
       GA[i][0] = i;         GB[i][0] = i-N-10+111;
       GA[i][1] = i-1;       GB[i][1] = i-N+110;
       GA[i][2] = i-10;      GB[i][2] = i-N-10+101;
