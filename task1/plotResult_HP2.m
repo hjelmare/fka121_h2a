@@ -5,12 +5,29 @@ textStorlek = 14;
 legendStorlek = 11;
 
 data = importdata('P_T.data'); %Något har hänt med denna!!!!!!!
-T = data(:,1);
-Pmin = data(:,2);
-plot(T, Pmin)
-xlabel('Temperature [K]')
-ylabel('Long-range order parameter P')
+%%
+clc
+T = data(:,3);
+Pmin = data(:,1);
+E = data(:,2);
+
+nbrOfIterations = length(Pmin)/40;
+cc=jet(nbrOfIterations);
+
+hold on
+for i= 0: nbrOfIterations-1
+    plot(Pmin(i*21 +1 :(i+1)*21), E(i*21 +1 :(i+1)*21), 'color', cc(i+1,:));
+end
+
+%colorbar('Ticks', [min(E), (max(E)-min(E))/2, max(E)], 'TickLabels', ...
+%    {['T=' num2str(T(1))], ['T=' num2str(T(length(T)/2))], ['T=' num2str(T(end)) ]})
+colorbar('YTick', [1 32 65], 'YTickLabel', ...
+    {['T=' num2str(T(1))], ['T=' num2str(T(length(T)/2))], ['T=' num2str(T(end)) ]})
+
+xlabel('Long range order parameter, P', 'FontSize', textStorlek)
+ylabel('Mean free energy [eV]', 'FontSize', textStorlek)
 %set(text, 'FontSize', legendStorlek);
+
 
 %---------- figure with the energies as function of P (at diferent constant T)---------
 figure
