@@ -15,7 +15,7 @@ granneB = granneB(:,1:end-1);
 
 
 %Dela upp index på grannen man vill testa:
-granne=0;
+granne=100;
 granne = granne + 1;
 gz = fix((granne-1)/100);
 gy = fix(((granne-1)-gz*100)/10);
@@ -123,7 +123,7 @@ granneB = granneB(:,1:end-1);
 
 
 %Dela upp index på grannen man vill testa:
-granne=19;
+granne=1;
 granne=granne+1;
 gz = fix((granne-1)/100);
 gy = fix(((granne-1)-gz*100)/10);
