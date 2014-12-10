@@ -77,92 +77,92 @@ int main()
   // Construct the neighbours OBS! in GA there are indexes to LatticeB and GB indexes in latticeA
   // ie. the neighbours to all particles in sublattice A are located in sublattice B.
   for(i=0; i<N; i++){
-   //Behandlar alla inre punkter
-   GA[i][0] = i;         GB[i][0] = i+111;
-   GA[i][1] = i-1;       GB[i][1] = i+110;
-   GA[i][2] = i-10;      GB[i][2] = i+101;
-   GA[i][3] = i-11;      GB[i][3] = i+100;
-   GA[i][4] = i-100;     GB[i][4] = i+11;
-   GA[i][5] = i-101;     GB[i][5] = i+10;
-   GA[i][6] = i-110;     GB[i][6] = i+1;
-   GA[i][7] = i-111;     GB[i][7] = i;
+    //Behandlar alla inre punkter
+    GA[i][0] = i;         GB[i][0] = i+111;
+    GA[i][1] = i-1;       GB[i][1] = i+110;
+    GA[i][2] = i-10;      GB[i][2] = i+101;
+    GA[i][3] = i-11;      GB[i][3] = i+100;
+    GA[i][4] = i-100;     GB[i][4] = i+11;
+    GA[i][5] = i-101;     GB[i][5] = i+10;
+    GA[i][6] = i-110;     GB[i][6] = i+1;
+    GA[i][7] = i-111;     GB[i][7] = i;
 
-   if(i<100){  //the "floor" boundary condition. (100 particles to the next lvl)
-     GA[i][0] = i;          //GB[i][0] = i+111;
-     GA[i][1] = i-1;        //GB[i][1] = i+110;
-     GA[i][2] = i-10;        //GB[i][2] = i+101;
-     GA[i][3] = i-11;        //GB[i][3] = i+100;
-     GA[i][4] = i+N-100;     //GB[i][4] = i+11;
-     GA[i][5] = i+N-101;     //GB[i][5] = i+10;
-     GA[i][6] = i+N-110;     //GB[i][6] = i+1;
-     GA[i][7] = i+N-111;     //GB[i][7] = i;
-   }
+    if(i<100){  //the "floor" boundary condition. (100 particles to the next lvl)
+      GA[i][0] = i;          //GB[i][0] = i+111;
+      GA[i][1] = i-1;        //GB[i][1] = i+110;
+      GA[i][2] = i-10;        //GB[i][2] = i+101;
+      GA[i][3] = i-11;        //GB[i][3] = i+100;
+      GA[i][4] = i+N-100;     //GB[i][4] = i+11;
+      GA[i][5] = i+N-101;     //GB[i][5] = i+10;
+      GA[i][6] = i+N-110;     //GB[i][6] = i+1;
+      GA[i][7] = i+N-111;     //GB[i][7] = i;
+    }
         
-   if(i%100<10){ // Främre sidan
-     GA[i][0] = i;           //GB[i][0] = i+111;
-     GA[i][1] = i-1;         //GB[i][1] = i+110;
-     GA[i][2] = i+100-10;    //GB[i][2] = i+101;
-     GA[i][3] = i+100-11;    //GB[i][3] = i+100; //KLAR
-     GA[i][4] = i-100;       //GB[i][4] = i+11;
-     GA[i][5] = i-101;       //GB[i][5] = i+10;
-     GA[i][6] = i-10;        //GB[i][6] = i+1;
-     GA[i][7] = i-11;        //GB[i][7] = i;
-   }
+    if(i%100<10){ // Främre sidan
+      GA[i][0] = i;           //GB[i][0] = i+111;
+      GA[i][1] = i-1;         //GB[i][1] = i+110;
+      GA[i][2] = i+100-10;    //GB[i][2] = i+101;
+      GA[i][3] = i+100-11;    //GB[i][3] = i+100; //KLAR
+      GA[i][4] = i-100;       //GB[i][4] = i+11;
+      GA[i][5] = i-101;       //GB[i][5] = i+10;
+      GA[i][6] = i-10;        //GB[i][6] = i+1;
+      GA[i][7] = i-11;        //GB[i][7] = i;
+    }
     
-   if((i%100) >= 90){ //Bortre sidan
-     /*GA[i][0] = i;*/         GB[i][0] = i-100+111;
-     /*GA[i][1] = i-1;*/       GB[i][1] = i-100+110;
-     /*GA[i][2] = i-10;*/      GB[i][2] = i+101;
-     /*GA[i][3] = i-11;*/      GB[i][3] = i+100;
-     /*GA[i][4] = i-100;*/     GB[i][4] = i-100+11;
-     /*GA[i][5] = i-101;*/     GB[i][5] = i-100+10;
-     /*GA[i][6] = i-110;*/     GB[i][6] = i+1;
-     /*GA[i][7] = i-111;*/     GB[i][7] = i;
-   }
+    if((i%100) >= 90){ //Bortre sidan
+      /*GA[i][0] = i;*/         GB[i][0] = i-100+111;
+      /*GA[i][1] = i-1;*/       GB[i][1] = i-100+110;
+      /*GA[i][2] = i-10;*/      GB[i][2] = i+101;
+      /*GA[i][3] = i-11;*/      GB[i][3] = i+100;
+      /*GA[i][4] = i-100;*/     GB[i][4] = i-100+11;
+      /*GA[i][5] = i-101;*/     GB[i][5] = i-100+10;
+      /*GA[i][6] = i-110;*/     GB[i][6] = i+1;
+      /*GA[i][7] = i-111;*/     GB[i][7] = i;
+    }
          
-   if((i+1)%10==0){ //Högra sidan
-     /*GA[i][0] = i;*/         GB[i][0] = i+101;
-     /*GA[i][1] = i-1;*/       GB[i][1] = i+110;
-     /*GA[i][2] = i-10;*/      GB[i][2] = i+91;
-     /*GA[i][3] = i-11;*/      GB[i][3] = i+100;
-     /*GA[i][4] = i-100;*/     GB[i][4] = i+1;
-     /*GA[i][5] = i-101;*/     GB[i][5] = i+10;
-     /*GA[i][6] = i-110;*/     GB[i][6] = i-9;
-     /*GA[i][7] = i-111;*/     GB[i][7] = i;
-   }
+    if((i+1)%10==0){ //Högra sidan
+      /*GA[i][0] = i;*/         GB[i][0] = i+101;
+      /*GA[i][1] = i-1;*/       GB[i][1] = i+110;
+      /*GA[i][2] = i-10;*/      GB[i][2] = i+91;
+      /*GA[i][3] = i-11;*/      GB[i][3] = i+100;
+      /*GA[i][4] = i-100;*/     GB[i][4] = i+1;
+      /*GA[i][5] = i-101;*/     GB[i][5] = i+10;
+      /*GA[i][6] = i-110;*/     GB[i][6] = i-9;
+      /*GA[i][7] = i-111;*/     GB[i][7] = i;
+    }
+          
+    if(i%10==0){ //Vänstra sidan
+      GA[i][0] = i;         //GB[i][0] = i+111;
+      GA[i][1] = i+9;       //GB[i][1] = i+110;
+      GA[i][2] = i-10;      //GB[i][2] = i+101;
+      GA[i][3] = i-1;       //GB[i][3] = i+100;
+      GA[i][4] = i-100;     //GB[i][4] = i+11;
+      GA[i][5] = i-101+10;  //GB[i][5] = i+10;
+      GA[i][6] = i-110;     //GB[i][6] = i+1;
+      GA[i][7] = i-111+10;  //GB[i][7] = i;
+    }
          
-   if(i%10==0){ //Vänstra sidan
-     GA[i][0] = i;         //GB[i][0] = i+111;
-     GA[i][1] = i+9;       //GB[i][1] = i+110;
-     GA[i][2] = i-10;      //GB[i][2] = i+101;
-     GA[i][3] = i-1;       //GB[i][3] = i+100;
-     GA[i][4] = i-100;     //GB[i][4] = i+11;
-     GA[i][5] = i-101+10;  //GB[i][5] = i+10;
-     GA[i][6] = i-110;     //GB[i][6] = i+1;
-     GA[i][7] = i-111+10;  //GB[i][7] = i;
-   }
-         
-   if(i>(N-100)){ // Övre sidan
-     /*GA[i][0] = i;*/         GB[i][0] = i+111-100;
-     /*GA[i][1] = i-1;*/       GB[i][1] = i+110-100;
-     /*GA[i][2] = i-10;*/      GB[i][2] = i+101-100;
-     /*GA[i][3] = i-11;*/      GB[i][3] = i+100-100;
-     /*GA[i][4] = i-100;*/     GB[i][4] = i+11;
-     /*GA[i][5] = i-101;*/     GB[i][5] = i+10;
-     /*GA[i][6] = i-110;*/     GB[i][6] = i+1;
-     /*GA[i][7] = i-111;*/     GB[i][7] = i;
-   }
+    if(i>(N-100)){ // Övre sidan
+      /*GA[i][0] = i;*/         GB[i][0] = i+111-100;
+      /*GA[i][1] = i-1;*/       GB[i][1] = i+110-100;
+      /*GA[i][2] = i-10;*/      GB[i][2] = i+101-100;
+      /*GA[i][3] = i-11;*/      GB[i][3] = i+100-100;
+      /*GA[i][4] = i-100;*/     GB[i][4] = i+11;
+      /*GA[i][5] = i-101;*/     GB[i][5] = i+10;
+      /*GA[i][6] = i-110;*/     GB[i][6] = i+1;
+      /*GA[i][7] = i-111;*/     GB[i][7] = i;
+    }
 
-
+ 
     if(i<10){ //Främre undre raden 
-     GA[i][0] = i;         //GB[i][0] = i+111;
-     GA[i][1] = i-1;       //GB[i][1] = i+110;
-     GA[i][2] = i+100-10;  //GB[i][2] = i+101;
-     GA[i][3] = i+100-11;  //GB[i][3] = i+100;
-     GA[i][4] = i+N-100;   //GB[i][4] = i+11;
-     GA[i][5] = i+N-101;   //GB[i][5] = i+10;
-     GA[i][6] = i+N-110+100;//GB[i][6] = i+1;
-     GA[i][7] = i+N-111+100;//GB[i][7] = i;
+      GA[i][0] = i;         //GB[i][0] = i+111;
+      GA[i][1] = i-1;       //GB[i][1] = i+110;
+      GA[i][2] = i+100-10;  //GB[i][2] = i+101;
+      GA[i][3] = i+100-11;  //GB[i][3] = i+100;
+      GA[i][4] = i+N-100;   //GB[i][4] = i+11;
+      GA[i][5] = i+N-101;   //GB[i][5] = i+10;
+      GA[i][6] = i+N-110+100;//GB[i][6] = i+1;
+      GA[i][7] = i+N-111+100;//GB[i][7] = i;
     }
 
     if(i%100 == 0){ //Främre vänstra raden
