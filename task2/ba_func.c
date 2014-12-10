@@ -6,6 +6,9 @@
 #include "ba_func.h"
 
 #define PI 3.14159265
+#define ECC -0.436
+#define EZZ -0.113
+#define ECZ -0.294
 
 //Initializes a parfectly ordered system.
 //Cn/Zn-Particles are the nearest neighbour matrixes.
@@ -20,7 +23,7 @@ void InitializeSystem(int N, double CnParticles[][8], double ZnParticles[][8])
   }
 }
 
-double getEnergy(int N, double CnParticles[][8], double ZnParticles[][8])
+double GetEnergy(int N, double CnParticles[][8], double ZnParticles[][8])
 {
   int i,j;
   double sum = 0;
