@@ -131,7 +131,7 @@ int main()
      GA[i][7] = i-111;     GB[i][7] = i;
    }
          
-   if((i-1)%10==0){ //Västra sidan
+   if(i%10==0){ //Vänstra sidan
      GA[i][0] = i;         GB[i][0] = i+111;
      GA[i][1] = i+9;       GB[i][1] = i+110;
      GA[i][2] = i-10;      GB[i][2] = i+101;
@@ -159,10 +159,10 @@ int main()
      GA[i][1] = i-1;       GB[i][1] = i+110;
      GA[i][2] = i+100-10;  GB[i][2] = i+101;
      GA[i][3] = i+100-11;  GB[i][3] = i+100;
-     GA[i][4] = i+N-200;   GB[i][4] = i+11;
-     GA[i][5] = i+N-201;   GB[i][5] = i+10;
-     GA[i][6] = i+N-110;   GB[i][6] = i+1;
-     GA[i][7] = i+N-111;   GB[i][7] = i;
+     GA[i][4] = i+N-100;   GB[i][4] = i+11;
+     GA[i][5] = i+N-101;   GB[i][5] = i+10;
+     GA[i][6] = i+N-110+100;GB[i][6] = i+1;
+     GA[i][7] = i+N-111+100;GB[i][7] = i;
     }
 
     if(i%100 == 0){ //Främre vänstra raden
