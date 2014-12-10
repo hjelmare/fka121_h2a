@@ -69,6 +69,10 @@ int main()
   for(i=0; i<N; i++){
       latticeA[i]= 0;
       latticeB[i]=1;
+      for(j = 0; j<8; j++){
+        GA[i][j] = 0;
+        GB[i][j] = 0;
+      }
   }
   // Construct the neighbours OBS! in GA there are indexes to LatticeB and GB indexes in latticeA
   // ie. the neighbours to all particles in sublattice A are located in sublattice B.
@@ -101,84 +105,106 @@ int main()
             GA[i][5] = i-101;     GB[i][5] = N-100+9;
             GA[i][6] = i-110;     GB[i][6] = N-9;
             GA[i][7] = i-111;     GB[i][7] = N-1;
+          }else{ if(i<10){ //Främre undre raden 
+              GA[i][0] = i;         GB[i][0] = i+111;
+              GA[i][1] = i-1;       GB[i][1] = i+110;
+              GA[i][2] = i+100-10;  GB[i][2] = i+101;
+              GA[i][3] = i+100-11;  GB[i][3] = i+100;
+              GA[i][4] = i+N-200;   GB[i][4] = i+11;
+              GA[i][5] = i+N-201;   GB[i][5] = i+10;
+              GA[i][6] = i+N-110;   GB[i][6] = i+1;
+              GA[i][7] = i+N-111;   GB[i][7] = i;
 
-          }else{ if(i<100){  //the "floor" boundary condition. (100 particles to the next lvl)
-              GA[i][0] = i;           GB[i][0] = i+111;
-              GA[i][1] = i-1;         GB[i][1] = i+110;
-              GA[i][2] = i-10;        GB[i][2] = i+101;
-              GA[i][3] = i-11;        GB[i][3] = i+100;
-              GA[i][4] = N+i-100;     GB[i][4] = i+11;
-              GA[i][5] = N+i-101;     GB[i][5] = i+10;
-              GA[i][6] = N+i-110;     GB[i][6] = i+1;
-              GA[i][7] = N+i-111;     GB[i][7] = i;
+              }else{ if(i%100 == 1){ //Främre vänstra raden
+                  GA[i][0] = i;         GB[i][0] = i+111;
+                  GA[i][1] = i+10-1;    GB[i][1] = i+110;
+                  GA[i][2] = i+100-10;  GB[i][2] = i+101;
+                  GA[i][3] = i-11+90;   GB[i][3] = i+100; // +90?? stämmer detta? på [7] också
+                  GA[i][4] = i-100;     GB[i][4] = i+11;
+                  GA[i][5] = i+10-101;  GB[i][5] = i+10;
+                  GA[i][6] = i+100-110; GB[i][6] = i+1;
+                  GA[i][7] = i-111+90;  GB[i][7] = i; //?
+              }else{ if()    
+
+              }else{ if(i<100){  //the "floor" boundary condition. (100 particles to the next lvl)
+                 GA[i][0] = i;           GB[i][0] = i+111;
+                 GA[i][1] = i-1;         GB[i][1] = i+110;
+                 GA[i][2] = i-10;        GB[i][2] = i+101;
+                 GA[i][3] = i-11;        GB[i][3] = i+100;
+                 GA[i][4] = N+i-100;     GB[i][4] = i+11;
+                 GA[i][5] = N+i-101;     GB[i][5] = i+10;
+                 GA[i][6] = N+i-110;     GB[i][6] = i+1;
+                GA[i][7] = N+i-111;     GB[i][7] = i;
         
-            }else{ if((i+1)%100<10){ // Främre sidan
-                GA[i][0] = i;           GB[i][0] = i+111;
-                GA[i][1] = i-1;         GB[i][1] = i+110;
-                GA[i][2] = i+100-10;    GB[i][2] = i+101;
-                GA[i][3] = i+100-11;    GB[i][3] = i+100;
-                GA[i][4] = i-100;       GB[i][4] = i+11;
-                GA[i][5] = i-101;       GB[i][5] = i+10;
-                GA[i][6] = i-10;        GB[i][6] = i+1;
-                GA[i][7] = i-11;        GB[i][7] = i;
-              }else{ if((i+1+10)%100<10){ //Bortre sidan
-                  GA[i][0] = i;         GB[i][0] = i+211;
-                  GA[i][1] = i-1;       GB[i][1] = i+110;
-                  GA[i][2] = i-10;      GB[i][2] = i+101;
-                  GA[i][3] = i-11;      GB[i][3] = i+100;
-                  GA[i][4] = i-100;     GB[i][4] = i+111;
-                  GA[i][5] = i-101;     GB[i][5] = i+110;
-                  GA[i][6] = i-110;     GB[i][6] = i+1;
-                  GA[i][7] = i-111;     GB[i][7] = i;
-         
-                }else{ if((i+1)%10==0){ //Högra sidan
-                    GA[i][0] = i;         GB[i][0] = i+101;
-                    GA[i][1] = i-1;       GB[i][1] = i+110;
-                    GA[i][2] = i-10;      GB[i][2] = i+91;
-                    GA[i][3] = i-11;      GB[i][3] = i+100;
-                    GA[i][4] = i-100;     GB[i][4] = i+1;
-                    GA[i][5] = i-101;     GB[i][5] = i+10;
-                    GA[i][6] = i-110;     GB[i][6] = i-9;
-                    GA[i][7] = i-111;     GB[i][7] = i;
-         
-                  }else{ if((i-1)%10==0){ //Västra sidan
-                      GA[i][0] = i;         GB[i][0] = i+111;
-                      GA[i][1] = i+9;       GB[i][1] = i+110;
+                }else{ if((i+1)%100<10){ // Främre sidan
+                    GA[i][0] = i;           GB[i][0] = i+111;
+                    GA[i][1] = i-1;         GB[i][1] = i+110;
+                    GA[i][2] = i+100-10;    GB[i][2] = i+101;
+                    GA[i][3] = i+100-11;    GB[i][3] = i+100;
+                    GA[i][4] = i-100;       GB[i][4] = i+11;
+                    GA[i][5] = i-101;       GB[i][5] = i+10;
+                    GA[i][6] = i-10;        GB[i][6] = i+1;
+                    GA[i][7] = i-11;        GB[i][7] = i;
+                  }else{ if((i+1+10)%100<10){ //Bortre sidan
+                      GA[i][0] = i;         GB[i][0] = i+211;
+                      GA[i][1] = i-1;       GB[i][1] = i+110;
                       GA[i][2] = i-10;      GB[i][2] = i+101;
-                      GA[i][3] = i-1;       GB[i][3] = i+100;
-                      GA[i][4] = i-100;     GB[i][4] = i+11;
-                      GA[i][5] = i-101+10;  GB[i][5] = i+10;
+                      GA[i][3] = i-11;      GB[i][3] = i+100;
+                      GA[i][4] = i-100;     GB[i][4] = i+111;
+                      GA[i][5] = i-101;     GB[i][5] = i+110;
                       GA[i][6] = i-110;     GB[i][6] = i+1;
-                      GA[i][7] = i-111+10;  GB[i][7] = i;
+                      GA[i][7] = i-111;     GB[i][7] = i;
          
-                   }else{ if(i>(N-100)){ // Övre sidan
-                        GA[i][0] = i;         GB[i][0] = i+111-100;
-                        GA[i][1] = i-1;       GB[i][1] = i+110-100;
-                        GA[i][2] = i-10;      GB[i][2] = i+101-100;
-                        GA[i][3] = i-11;      GB[i][3] = i+100-100;
-                        GA[i][4] = i-100;     GB[i][4] = i+11;
+                    }else{ if((i+1)%10==0){ //Högra sidan
+                        GA[i][0] = i;         GB[i][0] = i+101;
+                        GA[i][1] = i-1;       GB[i][1] = i+110;
+                        GA[i][2] = i-10;      GB[i][2] = i+91;
+                        GA[i][3] = i-11;      GB[i][3] = i+100;
+                        GA[i][4] = i-100;     GB[i][4] = i+1;
                         GA[i][5] = i-101;     GB[i][5] = i+10;
-                        GA[i][6] = i-110;     GB[i][6] = i+1;
+                        GA[i][6] = i-110;     GB[i][6] = i-9;
                         GA[i][7] = i-111;     GB[i][7] = i;
          
-                    }else{ */ //The neighbours to particles that's not affected by the boudary.
+                      }else{ if((i-1)%10==0){ //Västra sidan
                           GA[i][0] = i;         GB[i][0] = i+111;
-                          GA[i][1] = i-1;       GB[i][1] = i+110;
+                          GA[i][1] = i+9;       GB[i][1] = i+110;
                           GA[i][2] = i-10;      GB[i][2] = i+101;
-                          GA[i][3] = i-11;      GB[i][3] = i+100;
+                          GA[i][3] = i-1;       GB[i][3] = i+100;
                           GA[i][4] = i-100;     GB[i][4] = i+11;
-                          GA[i][5] = i-101;     GB[i][5] = i+10;
+                          GA[i][5] = i-101+10;  GB[i][5] = i+10;
                           GA[i][6] = i-110;     GB[i][6] = i+1;
-                          GA[i][7] = i-111;     GB[i][7] = i;
-    /*                   }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      } */
+                          GA[i][7] = i-111+10;  GB[i][7] = i;
+         
+                       }else{ */if(i>(N-100)){ // Övre sidan
+                            GA[i][0] = i;         GB[i][0] = i+111-100;
+                            GA[i][1] = i-1;       GB[i][1] = i+110-100;
+                            GA[i][2] = i-10;      GB[i][2] = i+101-100;
+                            GA[i][3] = i-11;      GB[i][3] = i+100-100;
+                            GA[i][4] = i-100;     GB[i][4] = i+11;
+                            GA[i][5] = i-101;     GB[i][5] = i+10;
+                            GA[i][6] = i-110;     GB[i][6] = i+1;
+                            GA[i][7] = i-111;     GB[i][7] = i;
+         
+                         }else{  //The neighbours to particles that's not affected by the boudary.
+                              GA[i][0] = i;         GB[i][0] = i+111;
+                              GA[i][1] = i-1;       GB[i][1] = i+110;
+                              GA[i][2] = i-10;      GB[i][2] = i+101;
+                              GA[i][3] = i-11;      GB[i][3] = i+100;
+                              GA[i][4] = i-100;     GB[i][4] = i+11;
+                              GA[i][5] = i-101;     GB[i][5] = i+10;
+                              GA[i][6] = i-110;     GB[i][6] = i+1;
+                              GA[i][7] = i-111;     GB[i][7] = i;
+//                          }
+//                      }
+//                    }
+//                  }
+//                }
+//              }
+//            }
+//          }
+//        }
+//      } 
+      } 
   }
 
   for(i=0; i<N; i++){
