@@ -77,17 +77,17 @@ int main()
   // Construct the neighbours OBS! in GA there are indexes to LatticeB and GB indexes in latticeA
   // ie. the neighbours to all particles in sublattice A are located in sublattice B.
   for(i=0; i<N; i++){
- /*     if(i==0){ //Kant- främfre, lägre vänstra
+      if(i==0){ //Hörn- främfre, lägre vänstra
         
         GA[i][0] = i;            GB[i][0] = i+111;
         GA[i][1] = i-1+10;       GB[i][1] = i+110;
         GA[i][2] = i-10+100;     GB[i][2] = i+101;
-        GA[i][3] = 10;           GB[i][3] = i+100;
+        GA[i][3] = i-1+100;      GB[i][3] = i+100;
         GA[i][4] = i-100+N;      GB[i][4] = i+11;
-        GA[i][5] = i-101+N-100;  GB[i][5] = i+10;
+        GA[i][5] = i-101+10;  GB[i][5] = i+10;
         GA[i][6] = i+N-10;       GB[i][6] = i+1;
         GA[i][7] = N;            GB[i][7] = i;
-      }else{ if(i == 99){ //Kant - bakre, lägre högra
+      } else{/* if(i == 99){ //Kant - bakre, lägre högra
           GA[i][0] = i;         GB[i][0] = 101;
           GA[i][1] = i-1;       GB[i][1] = 9;
           GA[i][2] = i-10;      GB[i][2] = 109;
@@ -232,7 +232,7 @@ int main()
 //            }
 //          }
 //        }
-//      } 
+      } 
       } 
   }
 

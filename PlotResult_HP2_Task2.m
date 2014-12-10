@@ -1,6 +1,7 @@
 %% PlotResults_HP2_Task2
 clear all
 clc
+clf
 
 N=1000;
 
@@ -15,6 +16,7 @@ granneB = granneB(:,1:end-1);
 
 %Dela upp index på grannen man vill testa:
 granne=0;
+granne = granne + 1;
 gz = fix((granne-1)/100);
 gy = fix(((granne-1)-gz*100)/10);
 gx = (granne-1)-gz*100-gy*10;
@@ -51,7 +53,7 @@ plot(gx+0.5, gy+0.5, 'ob') %B
 xlabel('X');
 ylabel('Y')
 
-subplot(2,2,2)
+subplot(2,2,3)
 hold on
 for j=0:9
     for k=0:9
@@ -66,20 +68,20 @@ plot(gx+0.5, gz+0.5, 'ob') %B
 xlabel('X');
 ylabel('Z')
 
-subplot(2,2,3)
+subplot(2,2,2)
 hold on
 for j=0:9
     for k=0:9
-            plot(j,k,'b');
-            plot(j+0.5,k+0.5,'r');
+            plot(k,j,'b');
+            plot(k+0.5,j+0.5,'r');
             %plot(y+0.5,z+0.5,'or') %A
-            plot(y,z,'or') %B            
+            plot(z,y,'or') %B            
     end
 end
 %plot(gy,gz, 'ob') %A
-plot(gy+0.5, gz+0.5, 'ob') %B
-xlabel('Y');
-ylabel('Z')
+plot(gz+0.5, gy+0.5, 'ob') %B
+xlabel('Z');
+ylabel('Y')
 
 %%
 hold on
@@ -107,6 +109,7 @@ grid on
 
 clear all
 clc
+clf
 
 N=1000;
 
@@ -126,7 +129,7 @@ gz = fix((granne-1)/100);
 gy = fix(((granne-1)-gz*100)/10);
 gx = (granne-1)-gz*100-gy*10;
 
-for i=1:8
+for i=6:6
 z(i)=fix(granneA(granne, i)/100);
 y(i)=fix((granneA(granne, i)-z(i)*100)/10);
 x(i)=granneA(granne,i)-(z(i)*100+y(i)*10);
@@ -158,7 +161,7 @@ plot(gx, gy, 'ob') %A
 xlabel('X');
 ylabel('Y')
 
-subplot(2,2,2)
+subplot(2,2,3)
 hold on
 for j=0:9
     for k=0:9
@@ -173,20 +176,20 @@ plot(gx,gz, 'ob') %A
 xlabel('X');
 ylabel('Z')
 
-subplot(2,2,3)
+subplot(2,2,2)
 hold on
 for j=0:9
     for k=0:9
-            plot(j,k,'b');
-            plot(j+0.5,k+0.5,'r');
-            plot(y+0.5,z+0.5,'or') %A
+            plot(k,j,'b');
+            plot(k+0.5,j+0.5,'r');
+            plot(z+0.5,y+0.5,'or') %A
             %plot(y,z,'or') %B            
     end
 end
-plot(gy,gz, 'ob') %A
+plot(gz,gy, 'ob') %A
 %plot(gy+0.5, gz+0.5, 'ob') %B
-xlabel('Y');
-ylabel('Z')
+xlabel('Z');
+ylabel('Y')
 
 
 
