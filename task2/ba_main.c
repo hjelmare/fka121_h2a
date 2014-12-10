@@ -19,7 +19,8 @@
 int main()
 { 
 
-  double energy; 
+  double energy;
+  double longRangeOrder;
   int n = 10*10*10;  // Number of Cu and Zn particles (10 unit cells in each dimension), there are 2 atoms per unit cell
 
   // variables that depend on earlier set variables:
@@ -40,6 +41,10 @@ int main()
   InitializeLattice(n, latticeA, CU);
   InitializeLattice(n, latticeB, ZN);
 
+
+  longRangeOrder = GetLongRangeOrder(n, latticeA);
+  
+  printf("long: %e\n", longRangeOrder);
   InitializeNeighbourMatrices(n, neighboursToA, neighboursToB);
 
   energy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
@@ -53,6 +58,8 @@ int main()
   energy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
   printf("%e\n", energy);
 
+  longRangeOrder = GetLongRangeOrder(n, latticeA);
+  printf("long: %e\n", longRangeOrder);
 
   for(i=0; i<n; i++){
     for(j=0; j<8; j++){
