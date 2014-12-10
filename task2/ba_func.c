@@ -6,6 +6,8 @@
 #include "ba_func.h"
 
 #define PI 3.14159265
+#define CU 0
+#define ZN 1
 #define ECC -0.436
 #define EZZ -0.113
 #define ECZ -0.294
@@ -21,11 +23,68 @@ void InitializeLattice(int n, int lattice[], int type)
   return;
 }
 
-double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], int neighboursToB[][8])
+double GetLongRangeOrder(int n, int latticeA[])
 {
-  // this needs to go through latticeA and latticeB and sum up NN-energies 
+  int i, count = 0;
+
+  for ( i = 0 ; i < n ; i++ ) {
+    if( latticeA[i] == CU ) {
+      count++;
+    }
+  }
+
+  return 2*(count/n)-1;
 }
 
+double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], int neighboursToB[][8])
+{
+
+  int i, j;
+  double energy = 0;
+  int myType, neighbourType;
+
+  for ( i = 0 ; i < n ; i++) {
+    myType = latticeA[i];
+    for ( j = 0 ; j < 8 ; j++ ) {
+      neighbourType = latticeB[ neighboursToA[i][j] ];
+
+      if(myType == neighbourType) {
+        if ( myType == CU ) {
+          energy += ECC;
+        } else {
+          energy += EZZ;
+        }
+      } else {
+        energy += ECZ;
+      }
+
+    }
+  }
+
+  for ( i = 0 ; i < n ; i++) {
+    myType = latticeB[i];
+    for ( j = 0 ; j < 8 ; j++ ) {
+      neighbourType = latticeA[ neighboursToB[i][j] ];
+
+      if(myType == neighbourType) {
+        if ( myType == CU ) {
+          energy += ECC;
+        } else {
+          energy += EZZ;
+        }
+      } else {
+        energy += ECZ;
+      }
+
+    }
+  }
+  
+  energy /= 2;
+
+  return(energy);
+}
+
+// This is nothing below this function
 void InitializeNeighbourMatrices(int n, int GA[][8], int GB[][8])
 {
   int i;

@@ -19,35 +19,14 @@
 int main()
 { 
 
-  double E_CuCu = -0.436; // eV
-  double E_ZnZn = -0.113; // eV
-  double E_CuZn = -0.294; // eV
-  double Pstep = 0.1;
-  double Tstep = 5;
-  double Tstart = 250;
-  double Tstop = 1200;
-  double dE, E0;
-  double T_c;   //Phase transition temperature
-  double E;
-  double E_save;
-  double freeEnergy_min, freeEnergy;
-  double P_save;
-  double heatCapacity;
-  double heatCapacityTemporary[2];
-  double Energy;
-  
+  double energy; 
   int n = 10*10*10;  // Number of Cu and Zn particles (10 unit cells in each dimension), there are 2 atoms per unit cell
 
   // variables that depend on earlier set variables:
-  double CuParticles[n][8], ZnParticles[n][8];
-  double temporaryStorage[8];
   int latticeA[n], latticeB[n];
   int neighboursToA[n][8], neighboursToB[n][8];
 
   int i,j,k;
-  double P, T;
-  int randZn, randCu;
-  int nZnChanges, nCuChanges;
 
   // File handles for saving
   FILE *neighbourAFile;
@@ -62,7 +41,18 @@ int main()
   InitializeLattice(n, latticeB, ZN);
 
   InitializeNeighbourMatrices(n, neighboursToA, neighboursToB);
-  printf("%d\n",neighboursToA[0][1]);
+
+  energy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
+  printf("%e\n", energy);
+
+  int temp;
+  temp = latticeA[5];
+  latticeA[5] = latticeB[7];
+  latticeB[7] = temp;
+
+  energy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
+  printf("%e\n", energy);
+
 
   for(i=0; i<n; i++){
     for(j=0; j<8; j++){
