@@ -58,7 +58,8 @@ double GetLongRangeOrder(int n, int latticeA[])
 
 double GetShortRangeOrder(int n, int latticeA[], int latticeB[], int neighboursToA[][8])
 {
-  int i,j, count = 0;
+  int i,j; 
+  double count = 0;
   double r;
   for (i=0; i<n; i++){
     for(j=0; j<8; j++){

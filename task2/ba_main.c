@@ -20,6 +20,7 @@ int main()
 {
   double oldEnergy, newEnergy, energyDifference;
   double longRangeOrder;
+  double shortRangeOrder;
   double targetTemperature = 50000;
   int n = 10*10*10;
 
@@ -74,9 +75,9 @@ int main()
   }
   
   longRangeOrder = GetLongRangeOrder(n, latticeA);
-  printf("long: %e\n", longRangeOrder);
+  shortRangeOrder = GetShortRangeOrder(n, latticeA, latticeB, neighboursToA);
 
-  printf("energy\t%e\tlro\t%e\n", newEnergy, longRangeOrder);
+  printf("energy=%e\tlro=%e\t sro=%e\n", newEnergy, longRangeOrder, shortRangeOrder);
 /*
   for(i=0; i<n; i++){
     for(j=0; j<8; j++){
@@ -88,7 +89,6 @@ int main()
   }
 */
   printf("Done!\n");
-
 
 
   return 0;
