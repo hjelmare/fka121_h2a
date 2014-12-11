@@ -121,7 +121,7 @@ double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], 
   return(energy);
 }
 
-// This is nothing below this function
+// There is nothing below this function
 void InitializeNeighbourMatrices(int n, int GA[][8], int GB[][8])
 {
   int i;

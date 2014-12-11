@@ -28,7 +28,8 @@ int main()
   int neighboursToA[n][8], neighboursToB[n][8];
 
   int i,j,k;
-  int q,r,p;
+  int q,r;
+  double p;
 
   srand(time(NULL));
 
@@ -46,19 +47,18 @@ int main()
   InitializeNeighbourMatrices(n, neighboursToA, neighboursToB);
 
   oldEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
-  
-  k = 0;  // replace this, use some intelligent condition for the metropolis algo
-  while ( k < 10 ) {
-    q = ((double) rand() / (double) RAND_MAX) * n;
-    r = ((double) rand() / (double) RAND_MAX) * n;
 
+  FILE *fEnergy = fopen("energy.data","w");
+
+  k = 0;  // replace this, use some intelligent condition for the metropolis algo
+  while ( k < 1000000 ) {
+    q = ((double) rand() / (double) RAND_MAX) * 2*n;
+    r = ((double) rand() / (double) RAND_MAX) * 2*n;
 
     SwapParticles(n, latticeA, latticeB, q, r);
 
-    // this is wrong, we need to be able to swap A<->A and B<->B as well...
     newEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
     energyDifference = newEnergy - oldEnergy;
-    printf("eDiff: %e\n",energyDifference);
 
     if(energyDifference > 0) {
       p = (double) rand() / (double) RAND_MAX;
@@ -70,10 +70,11 @@ int main()
     } else {
       oldEnergy = newEnergy;
     }
-    
+    fprintf(fEnergy,"%e\n",oldEnergy);
+
     k++;
   }
-  
+  printf("nIterations: %d\n", k); 
   longRangeOrder = GetLongRangeOrder(n, latticeA);
   shortRangeOrder = GetShortRangeOrder(n, latticeA, latticeB, neighboursToA);
 
