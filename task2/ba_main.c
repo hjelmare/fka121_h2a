@@ -22,8 +22,10 @@ int main()
   double longRangeOrder;
   double shortRangeOrder;
   int n = 10*10*10;
+  int nEquilibrationSteps = 8 * 100 * 1000;
+  int nProductionSteps = 10 * 1000 * 1000;
 
-  FILE *fEnergy = fopen("energy400.data","w");
+  FILE *fEnergy = fopen("T400.data","w");
   double targetTemperature = 400;
 
   int latticeA[n], latticeB[n];
@@ -51,7 +53,8 @@ int main()
   oldEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
 
   k = 0;  // replace this, use some intelligent condition for the metropolis algo
-  while ( k < 1000000 ) {
+  printf("Starting equilibration...\t\t");
+  while ( k < nEquilibrationSteps) {
     q = ((double) rand() / (double) RAND_MAX) * 2*n;
     r = ((double) rand() / (double) RAND_MAX) * 2*n;
 
@@ -70,15 +73,43 @@ int main()
     } else {
       oldEnergy = newEnergy;
     }
-    fprintf(fEnergy,"%e\n",oldEnergy);
 
     k++;
   }
-  printf("nIterations: %d\n", k); 
-  longRangeOrder = GetLongRangeOrder(n, latticeA);
-  shortRangeOrder = GetShortRangeOrder(n, latticeA, latticeB, neighboursToA);
+  printf("Equilibration done!\nStarting production...\t\t\t");
 
-  printf("energy=%e\tlro=%e\t sro=%e\n", newEnergy, longRangeOrder, shortRangeOrder);
+//-------------------------------------------------------------------------------------------------------------
+//-------------------------------------------Production--------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
+  k = 0;  // replace this, use some intelligent condition for the metropolis algo
+  while ( k < nProductionSteps ) {
+    q = ((double) rand() / (double) RAND_MAX) * 2*n;
+    r = ((double) rand() / (double) RAND_MAX) * 2*n;
+
+    SwapParticles(n, latticeA, latticeB, q, r);
+
+    newEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
+    energyDifference = newEnergy - oldEnergy;
+
+    if(energyDifference > 0) {
+      p = (double) rand() / (double) RAND_MAX;
+      if ( exp( - energyDifference/(BOLTZMANNeV * targetTemperature) ) > p ) {
+        oldEnergy = newEnergy;
+      } else {
+        SwapParticles(n, latticeA, latticeB, q, r);
+      }
+    } else {
+      oldEnergy = newEnergy;
+    }
+    
+    longRangeOrder = GetLongRangeOrder(n, latticeA);
+    shortRangeOrder = GetShortRangeOrder(n, latticeA, latticeB, neighboursToA);
+
+    fprintf(fEnergy,"%e\t%e\t%e\n",oldEnergy, longRangeOrder, shortRangeOrder);
+
+    k++;
+  }
+
 /*
   for(i=0; i<n; i++){
     for(j=0; j<8; j++){

@@ -52,7 +52,6 @@ double GetLongRangeOrder(int n, int latticeA[])
       count++;
     }
   }
-  printf("count %d\n",count);
   return 2*((double) count / (double) n)-1;
 }
 
