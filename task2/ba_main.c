@@ -20,7 +20,7 @@ int main()
 {
   double oldEnergy, newEnergy, energyDifference;
   double longRangeOrder;
-  double targetTemperature = 50;
+  double targetTemperature = 50000;
   int n = 10*10*10;
 
   int latticeA[n], latticeB[n];
@@ -28,7 +28,6 @@ int main()
 
   int i,j,k;
   int q,r,p;
-  int swap;
 
   srand(time(NULL));
 
@@ -43,23 +42,19 @@ int main()
   InitializeLattice(n, latticeA, CU);
   InitializeLattice(n, latticeB, ZN);
 
-  longRangeOrder = GetLongRangeOrder(n, latticeA);
-  printf("long: %e\n", longRangeOrder);
-
   InitializeNeighbourMatrices(n, neighboursToA, neighboursToB);
 
   oldEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
   
   k = 0;  // replace this, use some intelligent condition for the metropolis algo
-  while ( k < 100000 ) {
+  while ( k < 10 ) {
     q = ((double) rand() / (double) RAND_MAX) * n;
     r = ((double) rand() / (double) RAND_MAX) * n;
 
-    // this is wrong, we need to be able to swap A<->A and B<->B as well...
-    swap = latticeA[q];
-    latticeA[q] = latticeB[r];
-    latticeB[r] = swap;
 
+    SwapParticles(n, latticeA, latticeB, q, r);
+
+    // this is wrong, we need to be able to swap A<->A and B<->B as well...
     newEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
     energyDifference = newEnergy - oldEnergy;
     printf("eDiff: %e\n",energyDifference);
@@ -69,8 +64,7 @@ int main()
       if ( exp( - energyDifference/(BOLTZMANNeV * targetTemperature) ) > p ) {
         oldEnergy = newEnergy;
       } else {
-        latticeB[r] = latticeA[q];
-        latticeA[q] = swap;
+        SwapParticles(n, latticeA, latticeB, q, r);
       }
     } else {
       oldEnergy = newEnergy;
