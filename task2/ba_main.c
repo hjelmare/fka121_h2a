@@ -47,10 +47,10 @@ int main()
   oldEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
   
   k = 0;  // replace this, use some intelligent condition for the metropolis algo
-  while ( k < 10 ) {
+  while ( k < 3 ) {
     q = ((double) rand() / (double) RAND_MAX) * n;
     r = ((double) rand() / (double) RAND_MAX) * n;
-
+    printf("q: %d, r: %d\n", q,r);
 
     SwapParticles(n, latticeA, latticeB, q, r);
 
