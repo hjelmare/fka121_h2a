@@ -56,6 +56,22 @@ double GetLongRangeOrder(int n, int latticeA[])
   return 2*((double) count / (double) n)-1;
 }
 
+double GetShortRangeOrder(int n, int latticeA[], int latticeB[], int neighboursToA[][8])
+{
+  int i,j, count = 0;
+  double r;
+  for (i=0; i<n; i++){
+    for(j=0; j<8; j++){
+      if((latticeA[i]==CU && latticeB[ neighboursToA[i][j] ]==ZN) || (latticeA[i]==ZN && latticeB[ neighboursToA[i][j] ]==CU)){
+        count+=1;
+      }
+    }
+  }
+
+  r = (count - 4*n)/(4*n);
+  return r;
+}
+
 double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], int neighboursToB[][8])
 {
 
