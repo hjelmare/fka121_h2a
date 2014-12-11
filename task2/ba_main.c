@@ -33,11 +33,12 @@ int main()
   srand(time(NULL));
 
   // File handles for saving
-  FILE *neighbourAFile;
+/*  FILE *neighbourAFile;
   neighbourAFile = fopen("granneA.data","w");
   FILE *neighbourBFile;
   neighbourBFile = fopen("granneB.data","w");
-
+*/
+ 
   //Initialization (so far we only construct a perfectly ordered structure)
   InitializeLattice(n, latticeA, CU);
   InitializeLattice(n, latticeB, ZN);
@@ -82,8 +83,8 @@ int main()
   printf("long: %e\n", longRangeOrder);
 
   printf("energy\t%e\tlro\t%e\n", newEnergy, longRangeOrder);
-
-/*  for(i=0; i<n; i++){
+/*
+  for(i=0; i<n; i++){
     for(j=0; j<8; j++){
       fprintf(neighbourAFile, "%d\t", neighboursToA[i][j]);
       fprintf(neighbourBFile, "%d\t", neighboursToB[i][j]);
