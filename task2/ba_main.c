@@ -22,6 +22,8 @@ int main()
   double longRangeOrder;
   double shortRangeOrder;
   double targetTemperature = 50000;
+  int nbrOfEquilibrationSteps = 1000000;
+  int nbrOfProductionSteps = 10000;
   int n = 10*10*10;
 
   int latticeA[n], latticeB[n];
@@ -51,7 +53,8 @@ int main()
   FILE *fEnergy = fopen("energy.data","w");
 
   k = 0;  // replace this, use some intelligent condition for the metropolis algo
-  while ( k < 1000000 ) {
+  printf("starting equilibration \n");
+  while ( k < nbrOfEquilibrationSteps) {
     q = ((double) rand() / (double) RAND_MAX) * 2*n;
     r = ((double) rand() / (double) RAND_MAX) * 2*n;
 
@@ -70,10 +73,39 @@ int main()
     } else {
       oldEnergy = newEnergy;
     }
-    fprintf(fEnergy,"%e\n",oldEnergy);
 
     k++;
   }
+  printf("done with equilibration. Starting production\n");
+
+//-------------------------------------------------------------------------------------------------------------
+//-------------------------------------------Production--------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
+  k = 0;  // replace this, use some intelligent condition for the metropolis algo
+  while ( k < nbrOfProductionSteps ) {
+    q = ((double) rand() / (double) RAND_MAX) * 2*n;
+    r = ((double) rand() / (double) RAND_MAX) * 2*n;
+
+    SwapParticles(n, latticeA, latticeB, q, r);
+
+    newEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
+    energyDifference = newEnergy - oldEnergy;
+
+    if(energyDifference > 0) {
+      p = (double) rand() / (double) RAND_MAX;
+      if ( exp( - energyDifference/(BOLTZMANNeV * targetTemperature) ) > p ) {
+        oldEnergy = newEnergy;
+      } else {
+        SwapParticles(n, latticeA, latticeB, q, r);
+      }
+    } else {
+      oldEnergy = newEnergy;
+    }
+      fprintf(fEnergy,"%e\n",oldEnergy);
+
+    k++;
+  }
+
   printf("nIterations: %d\n", k); 
   longRangeOrder = GetLongRangeOrder(n, latticeA);
   shortRangeOrder = GetShortRangeOrder(n, latticeA, latticeB, neighboursToA);
