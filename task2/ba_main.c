@@ -25,8 +25,8 @@ int main()
   int nEquilibrationSteps = 8 * 100 * 1000;
   int nProductionSteps = 10 * 1000 * 1000;
 
-  FILE *fEnergy = fopen("T400.data","w");
-  double targetTemperature = 400;
+  FILE *fEnergy = fopen("T600.data","w");
+  double targetTemperature = 600;
 
   int latticeA[n], latticeB[n];
   int neighboursToA[n][8], neighboursToB[n][8];

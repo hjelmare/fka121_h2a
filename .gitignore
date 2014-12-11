@@ -6,6 +6,7 @@
 # Data
 *.data
 *.png
+*.bin
 
 # Executable
 task2/ba
