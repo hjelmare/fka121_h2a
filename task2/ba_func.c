@@ -23,6 +23,26 @@ void InitializeLattice(int n, int lattice[], int type)
   return;
 }
 
+void SwapParticles(int n, int latticeA[], int latticeB[], int index1, int index2)
+{
+  int swap1, swap2;
+  
+  swap1 = index1<n ? latticeA[index1] : latticeB[index1-n];
+  swap2 = index2<n ? latticeA[index2] : latticeB[index2-n];
+  if( index1 < n ) {
+    latticeA[index1] = swap2;
+  } else {
+    latticeB[index1-n] = swap2;
+  }
+  if( index2 < n ) {
+    latticeA[index2] = swap1;
+  } else {
+    latticeB[index2-n] = swap1;
+  }
+
+  return;
+}
+
 double GetLongRangeOrder(int n, int latticeA[])
 {
   int i, count = 0;
