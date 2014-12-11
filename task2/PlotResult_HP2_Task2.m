@@ -1,4 +1,23 @@
-%% PlotResults_HP2_Task2
+%% Plotta energi, tillfälligt kanske?
+
+clear all
+clc
+clf
+
+data = dlmread('energy.data','\t');
+plot(data)
+
+
+
+
+
+
+
+%%
+
+%%
+
+%% Plotta gitter och sånt
 clear all
 clc
 clf
