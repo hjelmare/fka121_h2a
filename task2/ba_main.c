@@ -21,8 +21,10 @@ int main()
   double oldEnergy, newEnergy, energyDifference;
   double longRangeOrder;
   double shortRangeOrder;
-  double targetTemperature = 50000;
   int n = 10*10*10;
+
+  FILE *fEnergy = fopen("energy400.data","w");
+  double targetTemperature = 400;
 
   int latticeA[n], latticeB[n];
   int neighboursToA[n][8], neighboursToB[n][8];
@@ -47,8 +49,6 @@ int main()
   InitializeNeighbourMatrices(n, neighboursToA, neighboursToB);
 
   oldEnergy = GetEnergy(n, latticeA, latticeB, neighboursToA, neighboursToB);
-
-  FILE *fEnergy = fopen("energy.data","w");
 
   k = 0;  // replace this, use some intelligent condition for the metropolis algo
   while ( k < 1000000 ) {
