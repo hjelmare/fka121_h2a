@@ -6,7 +6,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-void InitializeSystem(int N, double CnParticles[][8], double ZnParticles[][8]);
-double getEnergy(int N, double CnParticles[][8], double ZnParticles[][8]);
+void InitializeSystem(int N, double CnParticles[][8], \
+    double ZnParticles[][8]);
+double getEnergy(int N, double CnParticles[][8], \
+    double ZnParticles[][8]);
 
 #endif

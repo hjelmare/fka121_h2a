@@ -23,7 +23,8 @@ void InitializeLattice(int n, int lattice[], int type)
   return;
 }
 
-void SwapParticles(int n, int latticeA[], int latticeB[], int index1, int index2)
+void SwapParticles(int n, int latticeA[], int latticeB[], \
+    int index1, int index2)
 {
   int swap1, swap2;
   
@@ -55,14 +56,16 @@ double GetLongRangeOrder(int n, int latticeA[])
   return 2*((double) count / (double) n)-1;
 }
 
-double GetShortRangeOrder(int n, int latticeA[], int latticeB[], int neighboursToA[][8])
+double GetShortRangeOrder(int n, int latticeA[], int latticeB[], \
+    int neighboursToA[][8])
 {
   int i,j; 
   double count = 0;
   double r;
   for (i=0; i<n; i++){
     for(j=0; j<8; j++){
-      if((latticeA[i]==CU && latticeB[ neighboursToA[i][j] ]==ZN) || (latticeA[i]==ZN && latticeB[ neighboursToA[i][j] ]==CU)){
+      if((latticeA[i]==CU && latticeB[ neighboursToA[i][j] ]==ZN) || \
+          (latticeA[i]==ZN && latticeB[ neighboursToA[i][j] ]==CU)){
         count+=1;
       }
     }
@@ -72,7 +75,8 @@ double GetShortRangeOrder(int n, int latticeA[], int latticeB[], int neighboursT
   return r;
 }
 
-double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], int neighboursToB[][8])
+double GetEnergy(int n, int latticeA[], int latticeB[], \
+    int neighboursToA[][8], int neighboursToB[][8])
 {
 
   int i, j;
@@ -124,8 +128,9 @@ double GetEnergy(int n, int latticeA[], int latticeB[], int neighboursToA[][8], 
 void InitializeNeighbourMatrices(int n, int GA[][8], int GB[][8])
 {
   int i;
-  // Construct the neighbours OBS! in GA there are indexes to LatticeB and GB indexes in latticeA
-  // ie. the neighbours to all particles in sublattice A are located in sublattice B.
+  // NB! GA contains indices to LatticeB and GB indexes in latticeA
+  // ie. the neighbours to all particles in
+  // sublattice A are located in sublattice B.
   for(i=0; i<n; i++){
     // All inner points
     GA[i][0] = i;         GB[i][0] = i+111;
@@ -216,7 +221,7 @@ void InitializeNeighbourMatrices(int n, int GA[][8], int GB[][8])
       GA[i][0] = i;         GB[i][0] = i+111;
       GA[i][1] = i+10-1;    GB[i][1] = i+110;
       GA[i][2] = i+100-10;  GB[i][2] = i+101;
-      GA[i][3] = i-11+110;   GB[i][3] = i+100; // +110?? stämmer detta? på [7] också?
+      GA[i][3] = i-11+110;   GB[i][3] = i+100;
       GA[i][4] = i-100;     GB[i][4] = i+11;
       GA[i][5] = i+10-101;  GB[i][5] = i+10;
       GA[i][6] = i+100-110; GB[i][6] = i+1;
@@ -262,8 +267,6 @@ void InitializeNeighbourMatrices(int n, int GA[][8], int GB[][8])
       GA[i][6] = i+n-110;   //GB[i][6] = i+1;
       GA[i][7] = i+n+10-111;//GB[i][7] = i;
     }
-
-
 
     if(i == 99){ //Hörn - bakre, lägre högra
       /*GA[i][0] = i;*/         GB[i][0] = 100;
