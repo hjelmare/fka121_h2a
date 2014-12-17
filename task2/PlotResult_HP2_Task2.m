@@ -4,8 +4,9 @@ clear all
 clc
 clf
 
-data = dlmread('energy.data','\t');
-plot(data)
+data = dlmread('T700.data','\t');
+T=700;
+%plot(data)
 
 
 
@@ -15,9 +16,16 @@ plot(data)
 clear all
 clc
 
-data = dlmread('energy.data');
-%correlation = xcorr(data, 'coeff');
-correlation = xcov(data, 'coeff');
+%Import result
+fid = fopen('T1100.bin','r');
+data = fread(fid,[10e6,3],'double');
+fclose(fid);
+
+%data = dlmread('T400.data', '\t');
+T=1100;
+
+
+correlation = xcov(data(:,1), 'coeff');
 correlationStart = find(correlation == 1);
 xStart = 0;
 xStop = length(correlation) - correlationStart;
@@ -28,32 +36,48 @@ plot(x, correlation(correlationStart: end))
 plot([0, xStop], [exp(-2), exp(-2)], 'r')
 
 limit = find(correlation(correlationStart:end) < exp(-2), 1);
-disp(['the statistical inefficiency parameter, s = ', num2str(limit)])
 
 statInefficiency = 0;
 for i=correlationStart:correlationStart+limit
    statInefficiency = statInefficiency + correlation(i);
 end
 statInefficiency = 2*statInefficiency
-disp(' ')
+
+saveCorrelation = correlation(correlationStart:end);
+save('correlation_s_T1100', 'saveCorrelation')
+
 disp(['statistic inefficiency = ', num2str(statInefficiency)])
 %% Plot & Calculate stat. inefficiency by using block averaging
-
-
-for i=1:100
+Bmax = 100000;
+Bmin = 100;
+Bstep = 500;
+varData = var(data(:,1));
+sOfB = zeros(Bmax,1);
+hold on
+for i=Bmin:Bstep:Bmax
     B=i;
-    nbrOfBlocks = fix(length(data)/B);
+    nbrOfBlocks = fix(length(data(:,1))/B);
     meanData = zeros(nbrOfBlocks,1);
-    varData = zeros(nbrOfBlocks,1);
-    for j=0:nbrOfBlocks
+    for j=0:nbrOfBlocks-1
         start = j*B + 1;
-        stop = (j+1*B);
-        meanData(j+1) = mean(data(start:stop));
-        varData(j+1) = var(data(start:stop));
-    end
-    varOfMean = mean(meanData);
-end
+        stop = (j+1)*B;
+        meanData(j+1,1) = mean(data(start:stop,1));
 
+    end
+    varOfMean = var(meanData);
+    
+    sOfB(i) = B*varOfMean/varData;
+end
+save('blockAverage_s_T1100', 'sOfB');
+plot(sOfB)
+
+%% Calculate heat capacity
+k_b = 8.61734e-5;
+meanOfData = mean(data(:,1));
+energySquared = data(:,1).^2;
+meanOfDataSquared = mean(energySquared);
+heatCapacity = (meanOfDataSquared - meanOfData^2)/(k_b*T);
+save('heatCapacity_T1100', 'heatCapacity');
 
 
 %%

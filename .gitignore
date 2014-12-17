@@ -7,6 +7,8 @@
 *.data
 *.png
 *.bin
+*.mat
 
 # Executable
+task1/ba
 task2/ba

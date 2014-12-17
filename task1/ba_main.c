@@ -42,11 +42,11 @@ int main()
   FILE *valuesFile;
   valuesFile = fopen("values.data","w");
   FILE *energyFile;
-  energyFile = fopen("energyTask1.data","w");
-  FILE *p_TFile;
-  p_TFile = fopen("P_T.data","w");
+  energyFile = fopen("PofT.data","w");
+  FILE *freeEnergyFile;
+  freeEnergyFile = fopen("freeEnergy.data","w");
   FILE *UFile;
-  UFile = fopen("UofT.data","w");
+  UFile = fopen("energyOfT.data","w");
   FILE *CFile;
   CFile = fopen("heatCapacity.data","w");
 
@@ -67,7 +67,7 @@ int main()
     P_save = 2;
     E_save = 0;
     // ... and step through P and different T ...
-    for(P =- 1; P<1; P += Pstep){
+    for(P = -1; P<1; P += Pstep){
       E = E0 - 2*n*pow(P,2)*dE;
       freeEnergy = E - 2*n*BOLTZMANNeV*log(2) + \
       n*BOLTZMANNeV*T*((1 + P)*log(1 + P) + (1 - P)*log(1 - P));
@@ -78,10 +78,13 @@ int main()
         E_save = E;
       }
       // Save energies at all different P and T ...
-      fprintf(p_TFile, "%e\t%e\t%d\n", P, freeEnergy, T);
+      fprintf(freeEnergyFile, "%e\t%e\t%d\n", P, freeEnergy, T);
     }
     // ... and save lowest energy for each temperature
     fprintf(UFile, "%d\t%e\n", T, E_save);
+    
+    // Saves the P that gives the lowest energy at temperature T.
+    fprintf(energyFile,"%d \t %e\n", T, P_save);  
     
     // Calculating heat capacity
     if(storeNbr < 2){
@@ -94,8 +97,6 @@ int main()
       heatCapacityTemporary[0] = heatCapacityTemporary[1];
       heatCapacityTemporary[1] = E_save;
     }
-    // Saves the P that gives the lowest energy at temperature T.
-    fprintf(energyFile,"%d \t %e\n", T, P_save);  
   }
     
   printf("NB! PHASE TRANSITION TEMPERATURE SAVED \

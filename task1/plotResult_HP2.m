@@ -4,34 +4,35 @@ clc
 textStorlek = 14;
 legendStorlek = 11;
 
-data = importdata('P_T.data'); %Något har hänt med denna!!!!!!!
+data = importdata('freeEnergy.data'); %Något har hänt med denna!!!!!!!
 %%
 clc
 T = data(:,3);
 Pmin = data(:,1);
 E = data(:,2);
 
-nbrOfIterations = length(Pmin)/40;
+nbrOfPoints = find(Pmin==0.95, 1);
+nbrOfIterations = length(Pmin)/nbrOfPoints;
 cc=jet(nbrOfIterations);
 
 hold on
 for i= 0: nbrOfIterations-1
-    plot(Pmin(i*21 +1 :(i+1)*21), E(i*21 +1 :(i+1)*21), 'color', cc(i+1,:));
+    plot(Pmin(i*nbrOfPoints +1 :(i+1)*nbrOfPoints), E(i*nbrOfPoints +1 :(i+1)*nbrOfPoints), 'color', cc(i+1,:));
 end
 
 %colorbar('Ticks', [min(E), (max(E)-min(E))/2, max(E)], 'TickLabels', ...
 %    {['T=' num2str(T(1))], ['T=' num2str(T(length(T)/2))], ['T=' num2str(T(end)) ]})
 colorbar('YTick', [1 32 65], 'YTickLabel', ...
-    {['T=' num2str(T(1))], ['T=' num2str(T(length(T)/2))], ['T=' num2str(T(end)) ]})
+    {['T=' num2str(T(1)) ' K'], ['T=' num2str(T(length(T)/2)) ' K'], ['T=' num2str(T(end))  ' K']}, 'FontSize', textStorlek)
 
 xlabel('Long range order parameter, P', 'FontSize', textStorlek)
 ylabel('Mean free energy [eV]', 'FontSize', textStorlek)
 %set(text, 'FontSize', legendStorlek);
 
-
+%%
 %---------- figure with the energies as function of P (at diferent constant T)---------
 figure
-data = importdata('energyTask1.data');
+data = importdata('pOfT.data');
 plot(data(:,1),data(:,2))
 title('P(T)', 'FontSize',textStorlek)
 xlabel('Temperature [K]', 'FontSize', textStorlek)
@@ -40,7 +41,7 @@ text = legend('Long range parameter P');
 
 
 %% Task1 - plot energy and heat capacity as function of T;
-data = importdata('UofT.data');
+data = importdata('energyOfT.data');
 T_E = data(:,1);
 E = data(:,2);
 data = importdata('heatCapacity.data');
