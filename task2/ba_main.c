@@ -24,10 +24,11 @@ int main()
   int n = 10*10*10;
   int nEquilibrationSteps = 8 * 100 * 1000;
   int nProductionSteps = 10 * 1000 * 1000;
+  nProductionSteps = 1000;
 
   // Change these two lines for runs at different T
-  FILE *fEnergy = fopen("T1100.data","w"); // <-----
-  double targetTemperature = 1100;  // <-----
+  FILE *fEnergy = fopen("T600L.data","w"); // <-----
+  double targetTemperature = 600;  // <-----
 
   int latticeA[n], latticeB[n];
   int neighboursToA[n][8], neighboursToB[n][8];
