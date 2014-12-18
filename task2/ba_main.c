@@ -23,6 +23,7 @@ int main()
   double shortRangeOrder;
   int n = 10*10*10;
   int nEquilibrationSteps = 8 * 100 * 1000;
+
   int nProductionSteps = 10 * 1000 * 1000;
   nProductionSteps = 1000;
 
@@ -56,6 +57,8 @@ int main()
   oldEnergy = GetEnergy(n, latticeA, latticeB, \
       neighboursToA, neighboursToB);
 
+//  FILE *equilibrationFile = fopen("equilibration.data","w");
+
   k = 0;  
   printf("Starting equilibration...\t\t");
   while ( k < nEquilibrationSteps) {
@@ -83,12 +86,18 @@ int main()
       oldEnergy = newEnergy;
     }
 
+    // Needs this just for one equilibration plot, comment later!
+//    longRangeOrder = GetLongRangeOrder(n, latticeA);
+//    shortRangeOrder = GetShortRangeOrder(n, latticeA, \
+//        latticeB, neighboursToA);
+//    fprintf(equilibrationFile, "%e\t%e\t%e\n", oldEnergy, longRangeOrder, shortRangeOrder);
     k++;
   }
   printf("Equilibration done!\nStarting production...\t\t\t");
 
-  // Start of production 
+// Start of production 
   k = 0; 
+//  k=nProductionSteps;
   while ( k < nProductionSteps ) {
     q = ((double) rand() / (double) RAND_MAX) * 2*n;
     r = ((double) rand() / (double) RAND_MAX) * 2*n;

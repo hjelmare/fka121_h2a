@@ -63,6 +63,9 @@ int main()
       fprintf(fFreeEnergy, "%e\t%e\t%e\n", P, T, freeEnergy);
     }
     
+    // Saves the P that gives the lowest energy at temperature T.
+    fprintf(energyFile,"%d \t %e\n", T, P_save);  
+    
     // Calculating heat capacity
     if(prev_E_save == 0) { prev_E_save = E_save; }  // first time around
     if( E_save == prev_E_save) {

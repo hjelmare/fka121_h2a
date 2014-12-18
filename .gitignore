@@ -12,8 +12,10 @@
 
 # Hidden files
 .nfs*
+*.mat
 
 # Executable
+task1/ba
 task2/ba
 
 # Submitted source
