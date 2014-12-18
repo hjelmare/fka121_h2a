@@ -5,8 +5,6 @@
 #include "ba_func.h"
 
 #define PI 3.14159265
-
-#define BOLTZMANN (1.3806488*pow(10,-23))
 #define BOLTZMANNeV (8.61734*pow(10,-5))
 
 #define ECC (-0.436)  // bond energies in eV
@@ -15,90 +13,69 @@
 
 int main()
 { 
-  double Pstep = 0.05;  // P for pressure
-  int Tstep = 1;        // T for temperature
-  int Tstart = 250;
-  int Tstop = 1200;
-  double dE, E0;        // E for energy
-  double T_c;   //Phase transition temperature
-  double E;
-  double E_save;
-  double freeEnergy_min, freeEnergy;  // Helmholtz free energy
-  double P_save;
-  double heatCapacity;
-  double heatCapacityTemporary[2];
-  double Energy;
+  double Pstart = 0;
+  double Pstep = 0.001; // P for long range order parameter
+  double Pstop = 1;
+  double Tstep = 1;
+  double Tstart = 200;  // T for temperature
+  double Tstop = 1200;
   
   int n = 10*10*10;  // Num of particles on each sublattice
 
-  double CuParticles[n][8], ZnParticles[n][8];
-
-  int i,j,k;
-  int storeNbr; 
+  double freeEnergy_min, freeEnergy;  // Helmholtz free energy
+  double dE, E0;        // E for energy
+  double E;
+  double E_save;
+  double T;
+  double T_c;   //Phase transition temperature
   double P;
-  int T;
+  double P_save;
+  double heatCapacity = 0;
+  double prev_E_save = 0;
+  int stepsSinceLastIncrease = 0;
 
   // open files to save values in.
-  FILE *valuesFile;
-  valuesFile = fopen("values.data","w");
-  FILE *energyFile;
-  energyFile = fopen("energyTask1.data","w");
-  FILE *p_TFile;
-  p_TFile = fopen("P_T.data","w");
-  FILE *UFile;
-  UFile = fopen("UofT.data","w");
-  FILE *CFile;
-  CFile = fopen("heatCapacity.data","w");
-
+  FILE *valuesFile = fopen("values.data","w");
+  FILE *fFreeEnergy = fopen("freeEnergy.data","w");
+  FILE *fUpc = fopen("upc.data","w");
 
   // Mean field approximation
   dE = ECC + EZZ - 2*ECZ;
   E0 = 2*n*(ECC + EZZ + 2*ECZ);
   T_c = 2*dE/BOLTZMANNeV;
-  fprintf(valuesFile,"%e\tPhase transition temp - \
-  NB! Should be ~468 C\n", T_c);
-  // Somehow, the phase transition temperature is wrong
-  // Not sure why. It's a simple expression...
+  fprintf(valuesFile,"Phase transition temp\t%e\n", T_c);
 
-  storeNbr = 0;
   // Step through temperatures...
-  for(T=Tstart; T<Tstop; T+=Tstep){
-    freeEnergy_min = pow(10,100);
-    P_save = 2;
-    E_save = 0;
-    // ... and step through P and different T ...
-    for(P =- 1; P<1; P += Pstep){
+  for(T = Tstart; T <= Tstop; T += Tstep){
+    freeEnergy_min = pow(10,100);   // approximation of Inf
+    // ... and step through order parameter values ...
+    for(P = Pstart; P <= Pstop; P += Pstep){
       E = E0 - 2*n*pow(P,2)*dE;
-      freeEnergy = E - 2*n*BOLTZMANNeV*log(2) + \
+      freeEnergy = E - 2*n*BOLTZMANNeV*T*log(2) + \
       n*BOLTZMANNeV*T*((1 + P)*log(1 + P) + (1 - P)*log(1 - P));
-      // ... to find P that gives minimal E
+      // ... to find order parameter that minimizes F for each T
       if(freeEnergy < freeEnergy_min){
         freeEnergy_min = freeEnergy;
         P_save = P;
         E_save = E;
       }
-      // Save energies at all different P and T ...
-      fprintf(p_TFile, "%e\t%e\t%d\n", P, freeEnergy, T);
+      // Save free energies at all different P and T ...
+      fprintf(fFreeEnergy, "%e\t%e\t%e\n", P, T, freeEnergy);
     }
-    // ... and save lowest energy for each temperature
-    fprintf(UFile, "%d\t%e\n", T, E_save);
     
     // Calculating heat capacity
-    if(storeNbr < 2){
-      heatCapacityTemporary[storeNbr] = E_save; 
-      storeNbr += 1;
+    if(prev_E_save == 0) { prev_E_save = E_save; }  // first time around
+    if( E_save == prev_E_save) {
+      stepsSinceLastIncrease++;
     } else {
-      heatCapacity = (E_save - heatCapacityTemporary[0])/(2*Tstep);
-      fprintf(CFile, "%d \t %e \n", T, heatCapacity);
-        
-      heatCapacityTemporary[0] = heatCapacityTemporary[1];
-      heatCapacityTemporary[1] = E_save;
+      heatCapacity = (E_save - prev_E_save)/(Tstep*stepsSinceLastIncrease);
+      prev_E_save = E_save;
+      stepsSinceLastIncrease = 0;
     }
-    // Saves the P that gives the lowest energy at temperature T.
-    fprintf(energyFile,"%d \t %e\n", T, P_save);  
+        
+    // Saves E and P for lowest F, and also C, for each temperature
+    fprintf(fUpc, "%e\t%e\t%e\t%e\n", T, E_save, P_save, heatCapacity);
   }
     
-  printf("NB! PHASE TRANSITION TEMPERATURE SAVED \
-    IN values.data IS INCORRECT\n");
   return 0;
 }

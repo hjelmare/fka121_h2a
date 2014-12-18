@@ -1,69 +1,88 @@
-%% HP2 - Find P(T)
+%% Colorful plot of F(P) for different T
 clear all
 clc
+clf
+
 textStorlek = 14;
 legendStorlek = 11;
 
-data = importdata('P_T.data'); %Något har hänt med denna!!!!!!!
-%%
-clc
-T = data(:,3);
-Pmin = data(:,1);
-E = data(:,2);
+data = dlmread('freeEnergy.data','\t');
 
-nbrOfIterations = length(Pmin)/40;
-cc=jet(nbrOfIterations);
+P = data(:,1);
+T = data(:,2);
+F = data(:,3);
 
+nPoints = find(P==0, 2);
+nPoints = nPoints(2)-1;
+nIterations = length(P)/nPoints;
+
+cc=jet(nIterations);
+
+figure(1)
 hold on
-for i= 0: nbrOfIterations-1
-    plot(Pmin(i*21 +1 :(i+1)*21), E(i*21 +1 :(i+1)*21), 'color', cc(i+1,:));
+for i= 0:nIterations-1
+    plot(P(i*nPoints + 1 :(i+1)*nPoints), F(i*nPoints + 1 :(i+1)*nPoints), 'color', cc(i+1,:));
 end
 
-%colorbar('Ticks', [min(E), (max(E)-min(E))/2, max(E)], 'TickLabels', ...
-%    {['T=' num2str(T(1))], ['T=' num2str(T(length(T)/2))], ['T=' num2str(T(end)) ]})
 colorbar('YTick', [1 32 65], 'YTickLabel', ...
-    {['T=' num2str(T(1))], ['T=' num2str(T(length(T)/2))], ['T=' num2str(T(end)) ]})
+    {['T=' num2str(T(1)) ' K'], ['T=' num2str(T(length(T)/2)) ' K'], ['T=' num2str(T(end))  ' K']}, 'FontSize', textStorlek)
 
 xlabel('Long range order parameter, P', 'FontSize', textStorlek)
-ylabel('Mean free energy [eV]', 'FontSize', textStorlek)
-%set(text, 'FontSize', legendStorlek);
+ylabel('Mean field free energy [eV]', 'FontSize', textStorlek)
 
+saveas(gcf,'task1freeEnergy.png','png')
 
-%---------- figure with the energies as function of P (at diferent constant T)---------
-figure
-data = importdata('energyTask1.data');
-plot(data(:,1),data(:,2))
+%% P(T)
+clear all
+clc
+
+textStorlek = 14;
+
+data = dlmread('upc.data');
+T = data(:,1);
+P = data(:,3);
+
+figure(2)
+
+plot(T,P)
 title('P(T)', 'FontSize',textStorlek)
 xlabel('Temperature [K]', 'FontSize', textStorlek)
 ylabel('P', 'FontSize', textStorlek)
 text = legend('Long range parameter P');
 
+saveas(gcf,'task1longRange.png','png')
 
-%% Task1 - plot energy and heat capacity as function of T;
-data = importdata('UofT.data');
-T_E = data(:,1);
+%% E(T) and C(T)
+clear all
+clc
+clf
+
+textStorlek = 14;
+
+data = dlmread('upc.data');
+T = data(:,1);
 E = data(:,2);
-data = importdata('heatCapacity.data');
-T_C = data(:,1);
-C = data(:,2);
+C = data(:,4);
+
+E  = smooth(E,25);
+C = smooth(diff(E),10);
+C = [ C ; C(end) ]; % just patching to equal length
+
+figure(3)
 
 hold on
-line(T_E,E,'Color','b')
+line(T,E,'Color','b')
 ax1 = gca; % current axes
 set(ax1, 'XColor', 'b')
 set(ax1, 'YColor', 'b')
-ylabel('mean field energy [eV]', 'FontSize', textStorlek)
+ylabel('mean field energy U [eV]', 'FontSize', textStorlek)
 
 ax1_pos = get(ax1, 'Position'); % position of first axes
 ax2 = axes('Position',ax1_pos,'XAxisLocation','bottom', 'YAxisLocation','right',...
     'Color','none');
 
-line(T_C, C,'Parent',ax2,'Color','k')
+line(T, C,'Parent',ax2,'Color','k')
 xlabel('temperature [K]', 'FontSize', textStorlek)
 ylabel('heat capacity [eV/K]', 'FontSize', textStorlek)
 
-
-%% TEST - Inte med i rapporten
-clear all
-clc
-
+saveas(gcf,'task1heat.png','png')
