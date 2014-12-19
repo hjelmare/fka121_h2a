@@ -23,11 +23,12 @@ int main()
   double shortRangeOrder;
   int n = 10*10*10;
   int nEquilibrationSteps = 8 * 100 * 1000;
-//  nEquilibrationSteps = 2000000;
-  int nProductionSteps = 20 * 1000 * 1000;
+
+  int nProductionSteps = 10 * 1000 * 1000;
+  nProductionSteps = 1000;
 
   // Change these two lines for runs at different T
-  FILE *fEnergy = fopen("T600.data","w"); // <-----
+  FILE *fEnergy = fopen("T600L.data","w"); // <-----
   double targetTemperature = 600;  // <-----
 
   int latticeA[n], latticeB[n];

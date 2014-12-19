@@ -7,8 +7,16 @@
 *.data
 *.png
 *.bin
+*.pdf
+*.tar.gz
+
+# Hidden files
+.nfs*
 *.mat
 
 # Executable
 task1/ba
 task2/ba
+
+# Submitted source
+source/*
